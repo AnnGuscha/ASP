@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ASP.Models.ПослужнойСписок>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ДатаНазначения)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ДатаОсвобождения)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Должность.Название)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Сотрудник.ФИО)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ДатаНазначения)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ДатаОсвобождения)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Должность.Название)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Сотрудник.ФИО)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.КодСписка }) |
+            @Html.ActionLink("Details", "Details", new { id=item.КодСписка }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.КодСписка })
+        </td>
+    </tr>
+}
+
+</table>

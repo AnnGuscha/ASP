@@ -1,0 +1,70 @@
+﻿@model IEnumerable<ASP.Models.Заказ>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ДатаЗаказа)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ДатаИсполнения)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Предоплата)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Отметки)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Гарантия)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Сотрудник.ФИО)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Заказчик.ФИО)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ДатаЗаказа)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ДатаИсполнения)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Предоплата)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Отметки)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Гарантия)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Сотрудник.ФИО)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Заказчик.ФИО)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.КодЗаказа }) |
+            @Html.ActionLink("Details", "Details", new { id=item.КодЗаказа }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.КодЗаказа })
+        </td>
+    </tr>
+}
+
+</table>

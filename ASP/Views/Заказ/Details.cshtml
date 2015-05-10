@@ -1,0 +1,75 @@
+﻿@model ASP.Models.Заказ
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Заказ</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ДатаЗаказа)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ДатаЗаказа)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ДатаИсполнения)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ДатаИсполнения)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Предоплата)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Предоплата)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Отметки)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Отметки)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Гарантия)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Гарантия)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Сотрудник.ФИО)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Сотрудник.ФИО)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Заказчик.ФИО)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Заказчик.ФИО)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.КодЗаказа }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

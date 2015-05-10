@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c8dcf3a7f22e4f18b1db00fd39acaaf1" Name="Diagram1">
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.ВидКомплектующих" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.Должность" Width="1.5" PointX="3.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.Заказ" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.Заказчик" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.Комплектующее" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.ПослужнойСписок" Width="1.5" PointX="6" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.Сотрудник" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.СписокКомплектующих" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.СписокУслуг" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.Услуга" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
+        <AssociationConnector Association="КомпьютернаяФирмаModel.R_1" ManuallyRouted="false" />
+        <AssociationConnector Association="КомпьютернаяФирмаModel.R_5" ManuallyRouted="false" />
+        <AssociationConnector Association="КомпьютернаяФирмаModel.R_2" ManuallyRouted="false" />
+        <AssociationConnector Association="КомпьютернаяФирмаModel.R_3" ManuallyRouted="false" />
+        <AssociationConnector Association="КомпьютернаяФирмаModel.R_6" ManuallyRouted="false" />
+        <AssociationConnector Association="КомпьютернаяФирмаModel.R_8" ManuallyRouted="false" />
+        <AssociationConnector Association="КомпьютернаяФирмаModel.R_7" ManuallyRouted="false" />
+        <AssociationConnector Association="КомпьютернаяФирмаModel.R_4" ManuallyRouted="false" />
+        <AssociationConnector Association="КомпьютернаяФирмаModel.R_9" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.ВсеЗаказы" Width="1.5" PointX="6.875" PointY="7.875" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.ВсеКомплектующие" Width="1.5" PointX="7.875" PointY="0.875" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.Заказы" Width="1.5" PointX="8.875" PointY="4.875" />
+        <EntityTypeShape EntityType="КомпьютернаяФирмаModel.Сотрудники" Width="1.5" PointX="8.875" PointY="8.875" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,35 @@
+﻿@model ASP.Models.СписокУслуг
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>СписокУслуг</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Заказ.Отметки)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Заказ.Отметки)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Услуга.Наименование)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Услуга.Наименование)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.КодСписка }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

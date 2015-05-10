@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище КомпьютернаяФирмаModelContainer" CdmEntityContainer="КомпьютернаяФирмаEntities">
+    <EntitySetMapping Name="ВидКомплектующих">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.ВидКомплектующих">
+        <MappingFragment StoreEntitySet="ВидКомплектующих">
+          <ScalarProperty Name="КодВида" ColumnName="КодВида" />
+          <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+          <ScalarProperty Name="Описание" ColumnName="Описание" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Должность">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.Должность">
+        <MappingFragment StoreEntitySet="Должность">
+          <ScalarProperty Name="КодДолжности" ColumnName="КодДолжности" />
+          <ScalarProperty Name="Название" ColumnName="Название" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Заказ">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.Заказ">
+        <MappingFragment StoreEntitySet="Заказ">
+          <ScalarProperty Name="КодЗаказа" ColumnName="КодЗаказа" />
+          <ScalarProperty Name="ДатаЗаказа" ColumnName="ДатаЗаказа" />
+          <ScalarProperty Name="ДатаИсполнения" ColumnName="ДатаИсполнения" />
+          <ScalarProperty Name="КодЗаказчика" ColumnName="КодЗаказчика" />
+          <ScalarProperty Name="Предоплата" ColumnName="Предоплата" />
+          <ScalarProperty Name="Отметки" ColumnName="Отметки" />
+          <ScalarProperty Name="Гарантия" ColumnName="Гарантия" />
+          <ScalarProperty Name="КодСотрудника" ColumnName="КодСотрудника" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Заказчик">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.Заказчик">
+        <MappingFragment StoreEntitySet="Заказчик">
+          <ScalarProperty Name="КодЗаказчика" ColumnName="КодЗаказчика" />
+          <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+          <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+          <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+          <ScalarProperty Name="Скидка" ColumnName="Скидка" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Комплектующее">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.Комплектующее">
+        <MappingFragment StoreEntitySet="Комплектующее">
+          <ScalarProperty Name="КодКомплектующего" ColumnName="КодКомплектующего" />
+          <ScalarProperty Name="КодВида" ColumnName="КодВида" />
+          <ScalarProperty Name="Марка" ColumnName="Марка" />
+          <ScalarProperty Name="ФирмаПроизводитель" ColumnName="ФирмаПроизводитель" />
+          <ScalarProperty Name="СтранаПроизводитель" ColumnName="СтранаПроизводитель" />
+          <ScalarProperty Name="ДатаВыпуска" ColumnName="ДатаВыпуска" />
+          <ScalarProperty Name="Характеристики" ColumnName="Характеристики" />
+          <ScalarProperty Name="СрокГарантии" ColumnName="СрокГарантии" />
+          <ScalarProperty Name="Описание" ColumnName="Описание" />
+          <ScalarProperty Name="Цена" ColumnName="Цена" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ПослужнойСписок">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.ПослужнойСписок">
+        <MappingFragment StoreEntitySet="ПослужнойСписок">
+          <ScalarProperty Name="КодСписка" ColumnName="КодСписка" />
+          <ScalarProperty Name="КодДолжности" ColumnName="КодДолжности" />
+          <ScalarProperty Name="КодСотрудника" ColumnName="КодСотрудника" />
+          <ScalarProperty Name="ДатаНазначения" ColumnName="ДатаНазначения" />
+          <ScalarProperty Name="ДатаОсвобождения" ColumnName="ДатаОсвобождения" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Сотрудник">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.Сотрудник">
+        <MappingFragment StoreEntitySet="Сотрудник">
+          <ScalarProperty Name="КодСотрудника" ColumnName="КодСотрудника" />
+          <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="СписокКомплектующих">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.СписокКомплектующих">
+        <MappingFragment StoreEntitySet="СписокКомплектующих">
+          <ScalarProperty Name="КодСписка" ColumnName="КодСписка" />
+          <ScalarProperty Name="КодЗаказа" ColumnName="КодЗаказа" />
+          <ScalarProperty Name="КодКомплектующего" ColumnName="КодКомплектующего" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="СписокУслуг">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.СписокУслуг">
+        <MappingFragment StoreEntitySet="СписокУслуг">
+          <ScalarProperty Name="КодСписка" ColumnName="КодСписка" />
+          <ScalarProperty Name="КодЗаказа" ColumnName="КодЗаказа" />
+          <ScalarProperty Name="КодУслуги" ColumnName="КодУслуги" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Услуга">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.Услуга">
+        <MappingFragment StoreEntitySet="Услуга">
+          <ScalarProperty Name="КодУслуги" ColumnName="КодУслуги" />
+          <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+          <ScalarProperty Name="Описание" ColumnName="Описание" />
+          <ScalarProperty Name="Стоимость" ColumnName="Стоимость" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ВсеЗаказы">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.ВсеЗаказы">
+        <MappingFragment StoreEntitySet="ВсеЗаказы">
+          <ScalarProperty Name="Стоимость" ColumnName="Стоимость" />
+          <ScalarProperty Name="Гарантия" ColumnName="Гарантия" />
+          <ScalarProperty Name="Отметки" ColumnName="Отметки" />
+          <ScalarProperty Name="Предоплата" ColumnName="Предоплата" />
+          <ScalarProperty Name="ДатаИсполнения" ColumnName="ДатаИсполнения" />
+          <ScalarProperty Name="ДатаЗаказа" ColumnName="ДатаЗаказа" />
+          <ScalarProperty Name="Сотрудник" ColumnName="Сотрудник" />
+          <ScalarProperty Name="Заказчик" ColumnName="Заказчик" />
+          <ScalarProperty Name="КодЗаказа" ColumnName="КодЗаказа" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ВсеКомплектующие">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.ВсеКомплектующие">
+        <MappingFragment StoreEntitySet="ВсеКомплектующие">
+          <ScalarProperty Name="Вид" ColumnName="Вид" />
+          <ScalarProperty Name="Цена" ColumnName="Цена" />
+          <ScalarProperty Name="Описание" ColumnName="Описание" />
+          <ScalarProperty Name="СрокГарантии" ColumnName="СрокГарантии" />
+          <ScalarProperty Name="Характеристики" ColumnName="Характеристики" />
+          <ScalarProperty Name="ДатаВыпуска" ColumnName="ДатаВыпуска" />
+          <ScalarProperty Name="СтранаПроизводитель" ColumnName="СтранаПроизводитель" />
+          <ScalarProperty Name="ФирмаПроизводитель" ColumnName="ФирмаПроизводитель" />
+          <ScalarProperty Name="Марка" ColumnName="Марка" />
+          <ScalarProperty Name="КодКомплектующего" ColumnName="КодКомплектующего" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Заказы">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.Заказы">
+        <MappingFragment StoreEntitySet="Заказы">
+          <ScalarProperty Name="Стоимость" ColumnName="Стоимость" />
+          <ScalarProperty Name="КодСотрудника" ColumnName="КодСотрудника" />
+          <ScalarProperty Name="Гарантия" ColumnName="Гарантия" />
+          <ScalarProperty Name="Отметки" ColumnName="Отметки" />
+          <ScalarProperty Name="Предоплата" ColumnName="Предоплата" />
+          <ScalarProperty Name="КодЗаказчика" ColumnName="КодЗаказчика" />
+          <ScalarProperty Name="ДатаИсполнения" ColumnName="ДатаИсполнения" />
+          <ScalarProperty Name="ДатаЗаказа" ColumnName="ДатаЗаказа" />
+          <ScalarProperty Name="КодЗаказа" ColumnName="КодЗаказа" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Сотрудники">
+      <EntityTypeMapping TypeName="КомпьютернаяФирмаModel.Сотрудники">
+        <MappingFragment StoreEntitySet="Сотрудники">
+          <ScalarProperty Name="Стаж" ColumnName="Стаж" />
+          <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+          <ScalarProperty Name="КодСотрудника" ColumnName="КодСотрудника" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

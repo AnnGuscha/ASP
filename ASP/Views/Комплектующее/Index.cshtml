@@ -1,0 +1,82 @@
+﻿@model IEnumerable<ASP.Models.Комплектующее>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Марка)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ФирмаПроизводитель)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.СтранаПроизводитель)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ДатаВыпуска)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Характеристики)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.СрокГарантии)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Описание)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Цена)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ВидКомплектующих.Наименование)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Марка)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ФирмаПроизводитель)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.СтранаПроизводитель)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ДатаВыпуска)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Характеристики)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.СрокГарантии)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Описание)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Цена)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ВидКомплектующих.Наименование)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.КодКомплектующего }) |
+            @Html.ActionLink("Details", "Details", new { id=item.КодКомплектующего }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.КодКомплектующего })
+        </td>
+    </tr>
+}
+
+</table>

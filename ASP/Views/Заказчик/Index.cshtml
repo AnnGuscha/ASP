@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ASP.Models.Заказчик>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ФИО)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Адрес)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Телефон)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Скидка)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ФИО)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Адрес)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Телефон)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Скидка)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.КодЗаказчика }) |
+            @Html.ActionLink("Details", "Details", new { id=item.КодЗаказчика }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.КодЗаказчика })
+        </td>
+    </tr>
+}
+
+</table>

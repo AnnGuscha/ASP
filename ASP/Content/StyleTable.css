@@ -1,0 +1,35 @@
+﻿ /*Here we will add css for style webgrid*/
+                    .webgrid-table {
+                        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                        font-size: 1.2em;
+                        width: 100%;
+                        display: table;
+                        border-collapse: separate;
+                        border: solid 1px lightslategrey;
+                        background-color: white;
+                    }
+
+                        .webgrid-table td, th {
+                            border: 1px solid lightslategrey;
+                            padding: 3px 7px 2px;
+                        }
+
+                    .webgrid-header {
+                        background-color: #ddddff;
+                        color: #FFFFFF;
+                        padding-bottom: 4px;
+                        padding-top: 5px;
+                        text-align: left;
+                    }
+
+                    .webgrid-footer {
+                    }
+
+                    .webgrid-row-style {
+                        padding: 3px 7px 2px;
+                    }
+
+                    .webgrid-alternating-row {
+                        background-color: #eeeeff;
+                        padding: 3px 7px 2px;
+                    }
