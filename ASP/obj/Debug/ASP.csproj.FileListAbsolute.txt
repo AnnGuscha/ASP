@@ -65,6 +65,6 @@ E:\универ\3 kurs\6_sem\РПБДИС\курсач\ASP\ASP\bin\ru-ru\BundleT
 E:\универ\3 kurs\6_sem\РПБДИС\курсач\ASP\ASP\bin\ru-ru\BundleTransformer.Less.resources.dll
 E:\универ\3 kurs\6_sem\РПБДИС\курсач\ASP\ASP\bin\ru-ru\JavaScriptEngineSwitcher.Core.resources.dll
 E:\универ\3 kurs\6_sem\РПБДИС\курсач\ASP\ASP\bin\ru-ru\MsieJavaScriptEngine.resources.dll
-E:\универ\3 kurs\6_sem\РПБДИС\курсач\ASP\ASP\obj\Debug\ASP.csprojResolveAssemblyReference.cache
 E:\универ\3 kurs\6_sem\РПБДИС\курсач\ASP\ASP\obj\Debug\ASP.NET_MVC5_Bootstrap3_3_1_LESS.dll
 E:\универ\3 kurs\6_sem\РПБДИС\курсач\ASP\ASP\obj\Debug\ASP.NET_MVC5_Bootstrap3_3_1_LESS.pdb
+E:\универ\3 kurs\6_sem\РПБДИС\курсач\ASP\ASP\obj\Debug\ASP.csprojResolveAssemblyReference.cache

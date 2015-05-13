@@ -210,13 +210,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SortHelper.cs" />
     <Compile Include="Controllers\ВидКомплектующихController.cs" />
     <Compile Include="Controllers\ДолжностьController.cs" />
     <Compile Include="Controllers\ЗаказController.cs" />
     <Compile Include="Controllers\ЗаказчикController.cs" />
+    <Compile Include="Controllers\ЗаказыController.cs" />
     <Compile Include="Controllers\КомплектующееController.cs" />
     <Compile Include="Controllers\ПослужнойСписокController.cs" />
     <Compile Include="Controllers\СотрудникController.cs" />
+    <Compile Include="Controllers\СотрудникиController.cs" />
     <Compile Include="Controllers\СписокКомплектующихController.cs" />
     <Compile Include="Controllers\СписокУслугController.cs" />
     <Compile Include="Controllers\УслугаController.cs" />
@@ -291,19 +294,21 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\dataTables.bootstrap.css" />
     <Content Include="Content\dataTables\demo_page.css" />
     <Content Include="Content\dataTables\demo_table.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\images\back_disabled.jpg" />
-    <Content Include="Content\images\back_enabled.jpg" />
-    <Content Include="Content\images\favicon.ico" />
-    <Content Include="Content\images\forward_disabled.jpg" />
-    <Content Include="Content\images\forward_enabled.jpg" />
-    <Content Include="Content\images\sort_asc.png" />
-    <Content Include="Content\images\sort_asc_disabled.png" />
-    <Content Include="Content\images\sort_both.png" />
-    <Content Include="Content\images\sort_desc.png" />
-    <Content Include="Content\images\sort_desc_disabled.png" />
+    <Content Include="Content\Images\back_disabled.jpg" />
+    <Content Include="Content\Images\back_enabled.jpg" />
+    <Content Include="Content\Images\favicon.ico" />
+    <Content Include="Content\Images\forward_disabled.jpg" />
+    <Content Include="Content\Images\forward_enabled.jpg" />
+    <Content Include="Content\Images\sort_asc.png" />
+    <Content Include="Content\Images\sort_asc_disabled.png" />
+    <Content Include="Content\Images\sort_both.png" />
+    <Content Include="Content\Images\sort_desc.png" />
+    <Content Include="Content\Images\sort_desc_disabled.png" />
+    <Content Include="Content\jquery.dataTables.css" />
     <Content Include="Content\StyleTable.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -411,9 +416,8 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\images\Sorting icons.psd" />
+    <Content Include="Content\Images\Sorting icons.psd" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
-    <Content Include="Scripts\Home\index.js" />
     <Content Include="Scripts\Home\jquery-1.4.4.min.js" />
     <Content Include="Scripts\Home\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
@@ -511,6 +515,24 @@
     <Content Include="Views\Услуга\Index.cshtml" />
     <Content Include="Views\ВидКомплектующих\Home.cshtml" />
     <Content Include="Views\Комплектующее\Home.cshtml" />
+    <None Include="Views\Должность\Home.cshtml" />
+    <None Include="Views\Заказ\Home.cshtml" />
+    <None Include="Views\Заказчик\Home.cshtml" />
+    <Content Include="Views\Заказы\Create.cshtml" />
+    <Content Include="Views\Заказы\Delete.cshtml" />
+    <Content Include="Views\Заказы\Details.cshtml" />
+    <Content Include="Views\Заказы\Edit.cshtml" />
+    <Content Include="Views\Заказы\Index.cshtml" />
+    <None Include="Views\ПослужнойСписок\Home.cshtml" />
+    <None Include="Views\Сотрудник\Home.cshtml" />
+    <Content Include="Views\Сотрудники\Create.cshtml" />
+    <Content Include="Views\Сотрудники\Delete.cshtml" />
+    <Content Include="Views\Сотрудники\Details.cshtml" />
+    <Content Include="Views\Сотрудники\Edit.cshtml" />
+    <Content Include="Views\Сотрудники\Index.cshtml" />
+    <None Include="Views\СписокКомплектующих\Home.cshtml" />
+    <None Include="Views\СписокУслуг\Home.cshtml" />
+    <None Include="Views\Услуга\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

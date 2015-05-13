@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ASP.Models;
+using JQueryDataTables.Models;
 
 namespace ASP.Controllers
 {
@@ -19,6 +20,84 @@ namespace ASP.Controllers
         {
             var послужнойСписок = db.ПослужнойСписок.Include(п => п.Должность).Include(п => п.Сотрудник);
             return View(послужнойСписок.ToList());
+        }
+        public ActionResult Home()
+        {
+            return View();
+        }
+        public ActionResult AjaxHandler(JQueryDataTableParamModel param)
+        {
+            var all = db.ПослужнойСписок.AsEnumerable();
+            IEnumerable<ПослужнойСписок> filtered;
+            //Check whether the companies should be filtered by keyword
+
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                //Used if particulare columns are filtered 
+                var kodFilter = Convert.ToString(Request["sSearch_0"]);
+                var nameSotrFilter = Convert.ToString(Request["sSearch_1"]);
+                var nameDolgnFilter = Convert.ToString(Request["sSearch_2"]);
+
+                //Optionally check whether the columns are searchable at all 
+                var isKodSearchable = Convert.ToBoolean(Request["bSearchable_0"]);
+                var isNameSotrSearchable = Convert.ToBoolean(Request["bSearchable_1"]);
+                var isNameDolgnSearchable = Convert.ToBoolean(Request["bSearchable_2"]);
+
+                filtered = db.ПослужнойСписок.AsEnumerable()
+                   .Where(c => isNameSotrSearchable && c.Должность.Название.ToLower().Contains(param.sSearch.ToLower())
+                               ||
+                               isNameDolgnSearchable && c.Сотрудник.ФИО.ToLower().Contains(param.sSearch.ToLower()));
+            }
+            else
+            {
+                filtered = all;
+            }
+                var isSortable0 = Convert.ToBoolean(Request["bSortable_0"]);
+                var isSortable1 = Convert.ToBoolean(Request["bSortable_1"]);
+                var isSortable2 = Convert.ToBoolean(Request["bSortable_2"]);
+                var isSortable3 = Convert.ToBoolean(Request["bSortable_3"]);
+                var isSortable4 = Convert.ToBoolean(Request["bSortable_4"]);
+                var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+
+
+                var sortDirection = Request["sSortDir_0"]; // asc or desc
+                if (sortColumnIndex == 0 && isSortable0)
+                {
+                    Func<ПослужнойСписок, int> orderingFunction = (c => c.КодСписка);
+                    filtered = SortHelper<ПослужнойСписок,int>.Order(sortDirection, filtered, orderingFunction);
+                }
+                if (sortColumnIndex == 1 && isSortable1)
+                {
+                    Func<ПослужнойСписок, string> orderingFunction = (c => c.Сотрудник.ФИО);
+                    filtered = SortHelper<ПослужнойСписок,string>.Order(sortDirection, filtered, orderingFunction);
+                }
+                if (sortColumnIndex == 2 && isSortable2)
+                {
+                    Func<ПослужнойСписок, string> orderingFunction = (c => c.Должность.Название);
+                    filtered = SortHelper<ПослужнойСписок, string>.Order(sortDirection, filtered, orderingFunction);
+                }
+                if (sortColumnIndex == 3 && isSortable3)
+                {
+                    Func<ПослужнойСписок, DateTime?> orderingFunction = (c => c.ДатаНазначения);
+                    filtered = SortHelper<ПослужнойСписок, DateTime?>.Order(sortDirection, filtered, orderingFunction);
+                }
+                if (sortColumnIndex == 4 && isSortable4)
+                {
+                    Func<ПослужнойСписок, DateTime?> orderingFunction = (c => c.ДатаОсвобождения);
+                    filtered = SortHelper<ПослужнойСписок, DateTime?>.Order(sortDirection, filtered, orderingFunction);
+                }
+
+
+            var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
+            var result = from c in displayed select new[] { Convert.ToString(c.КодСписка), c.Сотрудник.ФИО, c.Должность.Название, c.ДатаНазначения.ToString(), c.ДатаОсвобождения.ToString() };
+            return Json(new
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = all.Count(),
+                iTotalDisplayRecords = filtered.Count(),
+                aaData = result
+            },
+                        JsonRequestBehavior.AllowGet);
         }
 
         // GET: ПослужнойСписок/Details/5

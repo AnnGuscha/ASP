@@ -48,11 +48,11 @@ namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS
             bootstrapBundle.Orderer = nullOrderer;
             bundles.Add(bootstrapBundle);
 
-            var dataTableBundle = new ScriptBundle("~/bundles/dataTable");
-            jqueryBundle.Include("~/Scripts/Home/*.js");
-            jqueryBundle.Transforms.Add(jsTransformer);
-            jqueryBundle.Orderer = nullOrderer;
-            bundles.Add(dataTableBundle);
+            //var dataTableBundle = new ScriptBundle("~/bundles/dataTable");
+            //jqueryBundle.Include("~/Scripts/Home/*.js");
+            //jqueryBundle.Transforms.Add(jsTransformer);
+            //jqueryBundle.Orderer = nullOrderer;
+            //bundles.Add(dataTableBundle);
         }
     }
 }

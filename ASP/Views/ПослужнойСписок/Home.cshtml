@@ -1,7 +1,7 @@
-﻿@model IEnumerable<ASP.Models.Комплектующее>
+﻿@model System.Collections.Generic.List<ASP.Models.ПослужнойСписок>
 
 @{
-    ViewBag.Title = "Комплектующее";
+    ViewBag.Title = "ПослужнойСписок";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -90,38 +90,45 @@
 
 <div id="container">
     <div id="demo">
-        <h2>Комплектующие</h2>
+        <h2>Послужной список</h2>
         <p>
-            @Html.ActionLink("Добавить", "Create")
+        @Html.ActionLink("Добавить", "Create")
         </p>
         <table id="myDataTable" class="table table-striped table-bordered hover" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Марка</th>
-                    <th>Вид</th>
-                    <th>Стоимость</th>
-                    <th>Страна производитель</th>
-                    <th>Фирма производитель</th>
-                    <th>Дата выпуска</th>
-                    <th>Гарантия</th>
-                    @*<th>Описание</th>
-                    <th>Характеристики</th>*@
-                </tr>
-            </thead>
+        <thead>
+        <tr>
+            <th>
+                КодСписка
+            </th>
+            <th>
+                Сотрудник
+            </th>
+            <th>
+                Должность
+            </th>
+            <th>
+                ДатаНазначения
+            </th>
+            <th>
+                ДатаОсвобождения
+            </th>
+        </tr>
+        </thead>
             <tfoot>
-            <th></th>
-            <th></th>
-            <th>Вид</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            @*<th></th>
-            <th></th>*@
+            <th>
+            </th>
+            <th>
+                Сотрудник
+            </th>
+            <th>
+                Должность
+            </th>
+            <th>
+              </th>
+            <th>
+              </th>
             </tfoot>
-            <tbody></tbody>
+        <tbody></tbody>
 
         </table>
     </div>

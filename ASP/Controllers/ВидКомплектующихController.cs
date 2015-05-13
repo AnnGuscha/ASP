@@ -29,22 +29,22 @@ namespace ASP.Controllers
 
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
-            var allVids = db.ВидКомплектующих.AsEnumerable();
-            IEnumerable<ВидКомплектующих> filteredVid;
+            var all = db.ВидКомплектующих.AsEnumerable();
+            IEnumerable<ВидКомплектующих> filtered;
             //Check whether the companies should be filtered by keyword
             if (!string.IsNullOrEmpty(param.sSearch))
             {
                 //Used if particulare columns are filtered 
-                var kodFilter = Convert.ToString(Request["sSearch_1"]);
-                var nameFilter = Convert.ToString(Request["sSearch_2"]);
-                var descFilter = Convert.ToString(Request["sSearch_3"]);
+                var kodFilter = Convert.ToString(Request["sSearch_0"]);
+                var nameFilter = Convert.ToString(Request["sSearch_1"]);
+                var descFilter = Convert.ToString(Request["sSearch_2"]);
 
                 //Optionally check whether the columns are searchable at all 
-                var isKodSearchable = Convert.ToBoolean(Request["bSearchable_1"]);
-                var isNameSearchable = Convert.ToBoolean(Request["bSearchable_2"]);
-                var isDescrSearchable = Convert.ToBoolean(Request["bSearchable_3"]);
+                var isKodSearchable = Convert.ToBoolean(Request["bSearchable_0"]);
+                var isNameSearchable = Convert.ToBoolean(Request["bSearchable_1"]);
+                var isDescrSearchable = Convert.ToBoolean(Request["bSearchable_2"]);
 
-                filteredVid = db.ВидКомплектующих.AsEnumerable()
+                filtered = db.ВидКомплектующих.AsEnumerable()
                    .Where(c => //isKodSearchable && c.КодВида==Convert.ToInt32(param.sSearch)
                                //||
                                isNameSearchable && c.Наименование.ToLower().Contains(param.sSearch.ToLower())
@@ -53,31 +53,40 @@ namespace ASP.Controllers
             }
             else
             {
-                filteredVid = allVids;
+                filtered = all;
             }
 
-            var isKodSortable = Convert.ToBoolean(Request["bSortable_1"]);
-            var isNameSortable = Convert.ToBoolean(Request["bSortable_2"]);
-            var isDescrSortable = Convert.ToBoolean(Request["bSortable_3"]);
+            var isKodSortable = Convert.ToBoolean(Request["bSortable_0"]);
+            var isNameSortable = Convert.ToBoolean(Request["bSortable_1"]);
+            var isDescrSortable = Convert.ToBoolean(Request["bSortable_2"]);
             var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
-            Func<ВидКомплектующих, string> orderingFunction = (c => sortColumnIndex == 1 && isKodSortable ? c.КодВида.ToString() :
-                                                           sortColumnIndex == 2 && isNameSortable ? c.Наименование :
-                                                           sortColumnIndex == 3 && isDescrSortable ? c.Описание :
-                                                           "");
+
 
             var sortDirection = Request["sSortDir_0"]; // asc or desc
-            if (sortDirection == "asc")
-                filteredVid = filteredVid.OrderBy(orderingFunction);
-            else
-                filteredVid = filteredVid.OrderByDescending(orderingFunction);
+            if (sortColumnIndex == 0 && isKodSortable)
+            {
+                Func<ВидКомплектующих, int> orderingFunction = (c => c.КодВида);
+                filtered = SortHelper<ВидКомплектующих, int>.Order(sortDirection, filtered, orderingFunction);
+            }
+            if (sortColumnIndex == 1 && isNameSortable)
+            {
+                Func<ВидКомплектующих, string> orderingFunction = (c => c.Наименование);
+                filtered = SortHelper<ВидКомплектующих, string>.Order(sortDirection, filtered, orderingFunction);
+            }
+            if (sortColumnIndex == 2 && isDescrSortable)
+            {
+                Func<ВидКомплектующих, string> orderingFunction = (c => c.Описание);
+                filtered = SortHelper<ВидКомплектующих, string>.Order(sortDirection, filtered, orderingFunction);
+            }
 
-            var displayedVids = filteredVid.Skip(param.iDisplayStart).Take(param.iDisplayLength);
+
+            var displayedVids = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
             var result = from c in displayedVids select new[] { Convert.ToString(c.КодВида), c.Наименование, c.Описание };
             return Json(new
             {
                 sEcho = param.sEcho,
-                iTotalRecords = allVids.Count(),
-                iTotalDisplayRecords = filteredVid.Count(),
+                iTotalRecords = all.Count(),
+                iTotalDisplayRecords = filtered.Count(),
                 aaData = result
             },
                         JsonRequestBehavior.AllowGet);
@@ -115,7 +124,7 @@ namespace ASP.Controllers
             {
                 db.ВидКомплектующих.Add(видКомплектующих);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             return View(видКомплектующих);
@@ -147,7 +156,7 @@ namespace ASP.Controllers
             {
                 db.Entry(видКомплектующих).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
             return View(видКомплектующих);
         }
@@ -175,7 +184,7 @@ namespace ASP.Controllers
             ВидКомплектующих видКомплектующих = db.ВидКомплектующих.Find(id);
             db.ВидКомплектующих.Remove(видКомплектующих);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Home");
         }
 
         protected override void Dispose(bool disposing)

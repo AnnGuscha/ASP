@@ -1,7 +1,7 @@
-﻿@model IEnumerable<ASP.Models.Комплектующее>
+﻿@model System.Collections.Generic.List<ASP.Models.СписокКомплектующих>
 
 @{
-    ViewBag.Title = "Комплектующее";
+    ViewBag.Title = "СписокКомплектующих";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -90,7 +90,7 @@
 
 <div id="container">
     <div id="demo">
-        <h2>Комплектующие</h2>
+        <h2>Список комплектующих</h2>
         <p>
             @Html.ActionLink("Добавить", "Create")
         </p>
@@ -98,28 +98,14 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Марка</th>
-                    <th>Вид</th>
-                    <th>Стоимость</th>
-                    <th>Страна производитель</th>
-                    <th>Фирма производитель</th>
-                    <th>Дата выпуска</th>
-                    <th>Гарантия</th>
-                    @*<th>Описание</th>
-                    <th>Характеристики</th>*@
+                    <th>Заказ</th>
+                    <th>Комплектующее</th>
                 </tr>
             </thead>
             <tfoot>
             <th></th>
-            <th></th>
-            <th>Вид</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            @*<th></th>
-            <th></th>*@
+            <th>Заказ</th>
+            <th>Комплектующее</th>
             </tfoot>
             <tbody></tbody>
 

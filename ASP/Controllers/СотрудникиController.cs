@@ -11,43 +11,45 @@ using JQueryDataTables.Models;
 
 namespace ASP.Controllers
 {
-    public class УслугаController : Controller
+    public class СотрудникиController : Controller
     {
         private КомпьютернаяФирмаEntities db = new КомпьютернаяФирмаEntities();
 
-        // GET: Услуга
+        // GET: Сотрудники
         public ActionResult Index()
         {
-            return View(db.Услуга.ToList());
+            return View(db.Сотрудники.ToList());
         }
+
         public ActionResult Home()
         {
-            return View(db.Услуга.ToList());
+            return View(db.Сотрудники.ToList());
+
         }
 
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
-            var all = db.Услуга.AsEnumerable();
-            IEnumerable<Услуга> filtered;
+            var all = db.Сотрудники.AsEnumerable();
+            IEnumerable<Сотрудники> filtered;
             //Check whether the companies should be filtered by keyword
             if (!string.IsNullOrEmpty(param.sSearch))
             {
                 //Used if particulare columns are filtered 
                 var kodFilter = Convert.ToString(Request["sSearch_0"]);
                 var nameFilter = Convert.ToString(Request["sSearch_1"]);
-                var descFilter = Convert.ToString(Request["sSearch_2"]);
+                var stagFilter = Convert.ToString(Request["sSearch_2"]);
 
                 //Optionally check whether the columns are searchable at all 
                 var isKodSearchable = Convert.ToBoolean(Request["bSearchable_0"]);
                 var isNameSearchable = Convert.ToBoolean(Request["bSearchable_1"]);
                 var isDescrSearchable = Convert.ToBoolean(Request["bSearchable_2"]);
 
-                filtered = db.Услуга.AsEnumerable()
+                filtered = db.Сотрудники.AsEnumerable()
                    .Where(c => //isKodSearchable && c.КодВида==Convert.ToInt32(param.sSearch)
                        //||
-                               isNameSearchable && c.Наименование.ToLower().Contains(param.sSearch.ToLower())
+                               isNameSearchable && c.ФИО.ToLower().Contains(param.sSearch.ToLower())
                                ||
-                               isDescrSearchable && c.Описание.ToLower().Contains(param.sSearch.ToLower()));
+                               isDescrSearchable && c.Стаж.ToString().ToLower().Contains(param.sSearch.ToLower()));
             }
             else
             {
@@ -56,30 +58,33 @@ namespace ASP.Controllers
 
             var isKodSortable = Convert.ToBoolean(Request["bSortable_0"]);
             var isNameSortable = Convert.ToBoolean(Request["bSortable_1"]);
-            var isDescrSortable = Convert.ToBoolean(Request["bSortable_2"]);
+            var isStagSortable = Convert.ToBoolean(Request["bSortable_2"]);
             var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
 
 
             var sortDirection = Request["sSortDir_0"]; // asc or desc
             if (sortColumnIndex == 0 && isKodSortable)
             {
-                Func<Услуга, int> orderingFunction = (c => c.КодУслуги);
-                filtered = SortHelper<Услуга, int>.Order(sortDirection, filtered, orderingFunction);
+                Func<Сотрудники, int> orderingFunction = (c => c.КодСотрудника);
+                filtered = SortHelper<Сотрудники, int>.Order(sortDirection, filtered, orderingFunction);
             }
             if (sortColumnIndex == 1 && isNameSortable)
             {
-                Func<Услуга, string> orderingFunction = (c => c.Наименование);
-                filtered = SortHelper<Услуга, string>.Order(sortDirection, filtered, orderingFunction);
+                Func<Сотрудники, string> orderingFunction = (c => c.ФИО);
+
+                filtered = SortHelper<Сотрудники, string>.Order(sortDirection, filtered, orderingFunction);
             }
-            if (sortColumnIndex == 2 && isDescrSortable)
+            if (sortColumnIndex == 2 && isStagSortable)
             {
-                Func<Услуга, string> orderingFunction = (c => c.Описание);
-                filtered = SortHelper<Услуга, string>.Order(sortDirection, filtered, orderingFunction);
+                Func<Сотрудники, int?> orderingFunction =
+                    (c => c.Стаж);
+
+                filtered = SortHelper<Сотрудники, int?>.Order(sortDirection, filtered, orderingFunction);
             }
 
 
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
-            var result = from c in displayed select new[] { Convert.ToString(c.КодУслуги), c.Наименование, c.Описание };
+            var result = from c in displayed select new[] { Convert.ToString(c.КодСотрудника), c.ФИО, c.Стаж.ToString() };
             return Json(new
             {
                 sEcho = param.sEcho,
@@ -89,97 +94,99 @@ namespace ASP.Controllers
             },
                         JsonRequestBehavior.AllowGet);
         }
-        // GET: Услуга/Details/5
+      
+
+        // GET: Сотрудники/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Услуга услуга = db.Услуга.Find(id);
-            if (услуга == null)
+            Сотрудники сотрудники = db.Сотрудники.Find(id);
+            if (сотрудники == null)
             {
                 return HttpNotFound();
             }
-            return View(услуга);
+            return View(сотрудники);
         }
 
-        // GET: Услуга/Create
+        // GET: Сотрудники/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Услуга/Create
+        // POST: Сотрудники/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "КодУслуги,Наименование,Описание,Стоимость")] Услуга услуга)
+        public ActionResult Create([Bind(Include = "КодСотрудника,ФИО,Стаж")] Сотрудники сотрудники)
         {
             if (ModelState.IsValid)
             {
-                db.Услуга.Add(услуга);
+                db.Сотрудники.Add(сотрудники);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(услуга);
+            return View(сотрудники);
         }
 
-        // GET: Услуга/Edit/5
+        // GET: Сотрудники/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Услуга услуга = db.Услуга.Find(id);
-            if (услуга == null)
+            Сотрудники сотрудники = db.Сотрудники.Find(id);
+            if (сотрудники == null)
             {
                 return HttpNotFound();
             }
-            return View(услуга);
+            return View(сотрудники);
         }
 
-        // POST: Услуга/Edit/5
+        // POST: Сотрудники/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "КодУслуги,Наименование,Описание,Стоимость")] Услуга услуга)
+        public ActionResult Edit([Bind(Include = "КодСотрудника,ФИО,Стаж")] Сотрудники сотрудники)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(услуга).State = EntityState.Modified;
+                db.Entry(сотрудники).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(услуга);
+            return View(сотрудники);
         }
 
-        // GET: Услуга/Delete/5
+        // GET: Сотрудники/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Услуга услуга = db.Услуга.Find(id);
-            if (услуга == null)
+            Сотрудники сотрудники = db.Сотрудники.Find(id);
+            if (сотрудники == null)
             {
                 return HttpNotFound();
             }
-            return View(услуга);
+            return View(сотрудники);
         }
 
-        // POST: Услуга/Delete/5
+        // POST: Сотрудники/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Услуга услуга = db.Услуга.Find(id);
-            db.Услуга.Remove(услуга);
+            Сотрудники сотрудники = db.Сотрудники.Find(id);
+            db.Сотрудники.Remove(сотрудники);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

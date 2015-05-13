@@ -15,7 +15,8 @@ $(document).ready(function () {
                                         '<a href=\"Details/' + oObj.aData[0] + '\">Details</a> |' +
                                        ' <a href=\"Delete/' + oObj.aData[0] + '\">Delete</a> ';
                             }
-                        },
+            },
+            { "sName": "ID" },
 			{ "sName": "Name" },
             { "sName": "Descr" }
 		            ]

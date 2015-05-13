@@ -23,5 +23,6 @@ namespace ASP.Models
         public Nullable<int> Гарантия { get; set; }
         public int КодСотрудника { get; set; }
         public Nullable<double> Стоимость { get; set; }
+
     }
 }
