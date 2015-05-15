@@ -15,26 +15,5 @@ namespace ASP.Controllers
                 filtered = filtered.OrderByDescending(orderingFunction);
             return filtered;
         }
-        //public static IEnumerable<T> Order(string sortDirection, IEnumerable<T> filtered, Func<T, int?> orderingFunction)
-        //{
-        //    if (sortDirection == "asc")
-        //        filtered = filtered.OrderBy(orderingFunction);
-        //    else
-        //        filtered = filtered.OrderByDescending(orderingFunction);
-        //    return filtered;
-        //}
-        //public static IEnumerable<T> Order(string sortDirection, IEnumerable<T> filtered, Func<T, string> orderingFunction)
-        //{
-        //    if (sortDirection == "asc")
-        //        filtered = filtered.OrderBy(orderingFunction);
-        //    else
-        //        filtered = filtered.OrderByDescending(orderingFunction);
-        //    return filtered;
-        //}
-
-       
-          
-         
-
     }
 }

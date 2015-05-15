@@ -80,8 +80,8 @@ namespace ASP.Controllers
             }
 
 
-            var displayedVids = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
-            var result = from c in displayedVids select new[] { Convert.ToString(c.КодВида), c.Наименование, c.Описание };
+            var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
+            var result = from c in displayed select new[] { Convert.ToString(c.КодВида), c.Наименование, c.Описание };
             return Json(new
             {
                 sEcho = param.sEcho,

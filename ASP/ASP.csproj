@@ -226,6 +226,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CompDTO.cs" />
     <Compile Include="Models\JQueryDataTableParamModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -300,9 +301,11 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\back_disabled.jpg" />
     <Content Include="Content\Images\back_enabled.jpg" />
+    <None Include="Content\Images\delete-20.png" />
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\forward_disabled.jpg" />
     <Content Include="Content\Images\forward_enabled.jpg" />
+    <None Include="Content\Images\pen-20.png" />
     <Content Include="Content\Images\sort_asc.png" />
     <Content Include="Content\Images\sort_asc_disabled.png" />
     <Content Include="Content\Images\sort_both.png" />

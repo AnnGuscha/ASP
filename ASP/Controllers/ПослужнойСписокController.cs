@@ -89,7 +89,7 @@ namespace ASP.Controllers
 
 
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
-            var result = from c in displayed select new[] { Convert.ToString(c.КодСписка), c.Сотрудник.ФИО, c.Должность.Название, c.ДатаНазначения.ToString(), c.ДатаОсвобождения.ToString() };
+            var result = from c in displayed select new[] { Convert.ToString(c.КодСписка), c.Сотрудник.ФИО, c.Должность.Название, ((DateTime)c.ДатаНазначения).ToShortDateString(), ((DateTime)c.ДатаОсвобождения).ToShortDateString() };
             return Json(new
             {
                 sEcho = param.sEcho,

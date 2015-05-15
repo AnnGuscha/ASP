@@ -41,6 +41,5 @@ namespace JQueryDataTables.Models
         /// Comma separated list of column names
         /// </summary>
         public string sColumns { get; set; }
-
     }
 }

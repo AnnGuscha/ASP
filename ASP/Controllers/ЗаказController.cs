@@ -121,7 +121,7 @@ namespace ASP.Controllers
 
 
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
-            var result = from c in displayed select new[] { Convert.ToString(c.КодЗаказа), c.Сотрудник, c.Заказчик, c.ДатаЗаказа.ToString(), c.ДатаИсполнения.ToString(), c.Предоплата.ToString(), c.Стоимость.ToString(), c.Гарантия.ToString(), c.Отметки };
+            var result = from c in displayed select new[] { Convert.ToString(c.КодЗаказа), c.Сотрудник, c.Заказчик, ((DateTime)c.ДатаЗаказа).ToShortDateString(), ((DateTime)c.ДатаИсполнения).ToShortDateString(), c.Предоплата.ToString(), c.Стоимость.ToString(), c.Гарантия.ToString(), c.Отметки };
             return Json(new
             {
                 sEcho = param.sEcho,
