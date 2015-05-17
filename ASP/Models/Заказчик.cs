@@ -7,24 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace ASP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Заказчик
     {
         public Заказчик()
         {
             this.Заказ = new HashSet<Заказ>();
         }
-    
+        [DisplayName("Заказчик")]
         public int КодЗаказчика { get; set; }
+        [DisplayName("ФИО заказчика")]
         public string ФИО { get; set; }
         public string Адрес { get; set; }
         public Nullable<int> Телефон { get; set; }
         public Nullable<int> Скидка { get; set; }
-    
+
         public virtual ICollection<Заказ> Заказ { get; set; }
     }
 }

@@ -26,33 +26,9 @@ namespace ASP.Controllers
         }
 
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
-        {            
+        {
             var all = db.Комплектующее.AsEnumerable();
             IEnumerable<Комплектующее> filtered;
-
-            //Search
-            if (!string.IsNullOrEmpty(param.sSearch))
-            {
-                filtered = db.Комплектующее.AsEnumerable()
-                    .Where(c => c.Марка.ToLower().Contains(param.sSearch.ToLower())
-                                ||
-                                c.ВидКомплектующих.Наименование.ToLower().Contains(param.sSearch.ToLower())
-                                ||
-                                c.Цена.ToString().ToLower().Contains(param.sSearch.ToLower())
-                                ||
-                                c.СтранаПроизводитель.ToLower().Contains(param.sSearch.ToLower())
-                                ||
-                                c.ФирмаПроизводитель.ToLower().Contains(param.sSearch.ToLower())
-                                ||
-                                c.ДатаВыпуска.ToString().ToLower().Contains(param.sSearch.ToLower())
-                                ||
-                                c.СрокГарантии.ToString().ToLower().Contains(param.sSearch.ToLower())
-                    );
-            }
-            else
-            {
-                filtered = all;
-            }
 
             //Filter
             int vidId;
@@ -67,69 +43,83 @@ namespace ASP.Controllers
                 filtered = all;
             }
 
+            //Search
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                filtered = filtered.Where(c => c.Марка.ToLower().Contains(param.sSearch.ToLower())
+                                || c.ВидКомплектующих.Наименование.ToLower().Contains(param.sSearch.ToLower())
+                                || c.Цена.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                || c.СтранаПроизводитель.ToLower().Contains(param.sSearch.ToLower())
+                                || c.ФирмаПроизводитель.ToLower().Contains(param.sSearch.ToLower())
+                                || c.ДатаВыпуска.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                || c.СрокГарантии.ToString().ToLower().Contains(param.sSearch.ToLower())
+                    );
+            }
+
             //Sorting
             var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
-
             var sortDirection = Request["sSortDir_0"]; // asc or desc
-            if (sortColumnIndex == 0)
+            switch (sortColumnIndex)
             {
-                Func<Комплектующее, int> orderingFunction = (c => c.КодКомплектующего);
-                filtered = SortHelper<Комплектующее, int>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 1)
-            {
-                Func<Комплектующее, string> orderingFunction = (c => c.Марка);
-                filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 2)
-            {
-                Func<Комплектующее, string> orderingFunction = (c => c.ВидКомплектующих.Наименование);
-                filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 3)
-            {
-                Func<Комплектующее, double?> orderingFunction = (c => c.Цена);
-                filtered = SortHelper<Комплектующее, double?>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 4)
-            {
-                Func<Комплектующее, string> orderingFunction = (c => c.СтранаПроизводитель);
-                filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 5)
-            {
-                Func<Комплектующее, string> orderingFunction = (c => c.ФирмаПроизводитель);
-                filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 6)
-            {
-                Func<Комплектующее, DateTime?> orderingFunction = (c => c.ДатаВыпуска);
-                filtered = SortHelper<Комплектующее, DateTime?>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 7)
-            {
-                Func<Комплектующее, int?> orderingFunction = (c => c.СрокГарантии);
-                filtered = SortHelper<Комплектующее, int?>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 8)
-            {
-                Func<Комплектующее, string> orderingFunction = (c => c.Описание);
-                filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 8)
-            {
-                Func<Комплектующее, string> orderingFunction = (c => c.Характеристики);
-                filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
+                case 0:
+                    {
+                        Func<Комплектующее, int> orderingFunction = (c => c.КодКомплектующего);
+                        filtered = SortHelper<Комплектующее, int>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
+                case 1:
+                    {
+                        Func<Комплектующее, string> orderingFunction = (c => c.Марка);
+                        filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
+                case 2:
+                    {
+                        Func<Комплектующее, double?> orderingFunction = (c => c.Цена);
+                        filtered = SortHelper<Комплектующее, double?>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
+                case 3:
+                    {
+                        Func<Комплектующее, string> orderingFunction = (c => c.ВидКомплектующих.Наименование);
+                        filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
+                case 4:
+                    {
+                        Func<Комплектующее, string> orderingFunction = (c => c.СтранаПроизводитель);
+                        filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
+                case 5:
+                    {
+                        Func<Комплектующее, string> orderingFunction = (c => c.ФирмаПроизводитель);
+                        filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
+                case 6:
+                    {
+                        Func<Комплектующее, DateTime?> orderingFunction = (c => c.ДатаВыпуска);
+                        filtered = SortHelper<Комплектующее, DateTime?>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
+                case 7:
+                    {
+                        Func<Комплектующее, int?> orderingFunction = (c => c.СрокГарантии);
+                        filtered = SortHelper<Комплектующее, int?>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
+                case 8:
+                    {
+                        Func<Комплектующее, string> orderingFunction = (c => c.Описание);
+                        filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
+                case 9:
+                    {
+                        Func<Комплектующее, string> orderingFunction = (c => c.Характеристики);
+                        filtered = SortHelper<Комплектующее, string>.Order(sortDirection, filtered, orderingFunction);
+                    } break;
             }
 
             //Pagination
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
 
-
             //Finish selection from DB
             var result = from c in displayed
-                select
-                    new[]
+                         select
+                             new[]
                     {
                         Convert.ToString(c.КодКомплектующего), c.Марка, c.ВидКомплектующих.Наименование, c.Цена.ToString(),
                         c.СтранаПроизводитель, c.ФирмаПроизводитель, ((DateTime) c.ДатаВыпуска).ToShortDateString(),
@@ -138,7 +128,7 @@ namespace ASP.Controllers
 
             return Json(new
             {
-                param.sEcho,
+                sEcho = param.sEcho,
                 iTotalRecords = all.Count(),
                 iTotalDisplayRecords = filtered.Count(),
                 aaData = result

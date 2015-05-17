@@ -23,72 +23,78 @@ namespace ASP.Controllers
         }
         public ActionResult Home()
         {
-            return View();
+            return View(new PoslugSpisokDTO(db.Сотрудник.ToList(), db.Должность.ToList()));
         }
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
             var all = db.ПослужнойСписок.AsEnumerable();
             IEnumerable<ПослужнойСписок> filtered;
-            //Check whether the companies should be filtered by keyword
 
-            if (!string.IsNullOrEmpty(param.sSearch))
+            //Filter
+            int sortId, dolgnId;
+            var isNum1 = int.TryParse(Convert.ToString(Request["sSearch_1"]), out sortId);
+            var isNum2 = int.TryParse(Convert.ToString(Request["sSearch_2"]), out dolgnId);
+            if (isNum1 || isNum2)
             {
-                //Used if particulare columns are filtered 
-                var kodFilter = Convert.ToString(Request["sSearch_0"]);
-                var nameSotrFilter = Convert.ToString(Request["sSearch_1"]);
-                var nameDolgnFilter = Convert.ToString(Request["sSearch_2"]);
-
-                //Optionally check whether the columns are searchable at all 
-                var isKodSearchable = Convert.ToBoolean(Request["bSearchable_0"]);
-                var isNameSotrSearchable = Convert.ToBoolean(Request["bSearchable_1"]);
-                var isNameDolgnSearchable = Convert.ToBoolean(Request["bSearchable_2"]);
-
                 filtered = db.ПослужнойСписок.AsEnumerable()
-                   .Where(c => isNameSotrSearchable && c.Должность.Название.ToLower().Contains(param.sSearch.ToLower())
-                               ||
-                               isNameDolgnSearchable && c.Сотрудник.ФИО.ToLower().Contains(param.sSearch.ToLower()));
+                .Where(c => c.КодСотрудника == sortId || c.КодДолжности == dolgnId);
+
             }
             else
             {
                 filtered = all;
             }
-                var isSortable0 = Convert.ToBoolean(Request["bSortable_0"]);
-                var isSortable1 = Convert.ToBoolean(Request["bSortable_1"]);
-                var isSortable2 = Convert.ToBoolean(Request["bSortable_2"]);
-                var isSortable3 = Convert.ToBoolean(Request["bSortable_3"]);
-                var isSortable4 = Convert.ToBoolean(Request["bSortable_4"]);
-                var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
 
+            //Search
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                filtered = filtered.Where(c => c.Должность.Название.ToLower().Contains(param.sSearch.ToLower())
+                               || c.Сотрудник.ФИО.ToLower().Contains(param.sSearch.ToLower())
+                               || c.ДатаНазначения.ToString().ToLower().Contains(param.sSearch.ToLower())
+                               || c.ДатаОсвобождения.ToString().ToLower().Contains(param.sSearch.ToLower()));
+            }
 
-                var sortDirection = Request["sSortDir_0"]; // asc or desc
-                if (sortColumnIndex == 0 && isSortable0)
-                {
-                    Func<ПослужнойСписок, int> orderingFunction = (c => c.КодСписка);
-                    filtered = SortHelper<ПослужнойСписок,int>.Order(sortDirection, filtered, orderingFunction);
-                }
-                if (sortColumnIndex == 1 && isSortable1)
-                {
-                    Func<ПослужнойСписок, string> orderingFunction = (c => c.Сотрудник.ФИО);
-                    filtered = SortHelper<ПослужнойСписок,string>.Order(sortDirection, filtered, orderingFunction);
-                }
-                if (sortColumnIndex == 2 && isSortable2)
-                {
-                    Func<ПослужнойСписок, string> orderingFunction = (c => c.Должность.Название);
-                    filtered = SortHelper<ПослужнойСписок, string>.Order(sortDirection, filtered, orderingFunction);
-                }
-                if (sortColumnIndex == 3 && isSortable3)
-                {
-                    Func<ПослужнойСписок, DateTime?> orderingFunction = (c => c.ДатаНазначения);
-                    filtered = SortHelper<ПослужнойСписок, DateTime?>.Order(sortDirection, filtered, orderingFunction);
-                }
-                if (sortColumnIndex == 4 && isSortable4)
-                {
-                    Func<ПослужнойСписок, DateTime?> orderingFunction = (c => c.ДатаОсвобождения);
-                    filtered = SortHelper<ПослужнойСписок, DateTime?>.Order(sortDirection, filtered, orderingFunction);
-                }
+            //Sorting
+            var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
+            var sortDirection = Request["sSortDir_0"]; // asc or desc
+            switch (sortColumnIndex)
+            {
+                case 0:
+                    {
+                        Func<ПослужнойСписок, int> orderingFunction = (c => c.КодСписка);
+                        filtered = SortHelper<ПослужнойСписок, int>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 1:
+                    {
+                        Func<ПослужнойСписок, string> orderingFunction = (c => c.Сотрудник.ФИО);
+                        filtered = SortHelper<ПослужнойСписок, string>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 2:
+                    {
+                        Func<ПослужнойСписок, string> orderingFunction = (c => c.Должность.Название);
+                        filtered = SortHelper<ПослужнойСписок, string>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 3:
+                    {
+                        Func<ПослужнойСписок, DateTime?> orderingFunction = (c => c.ДатаНазначения);
+                        filtered = SortHelper<ПослужнойСписок, DateTime?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 4:
+                    {
+                        Func<ПослужнойСписок, DateTime?> orderingFunction = (c => c.ДатаОсвобождения);
+                        filtered = SortHelper<ПослужнойСписок, DateTime?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+            }
 
-
+            //Pagination
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
+
+            //Finish selection from DB
             var result = from c in displayed select new[] { Convert.ToString(c.КодСписка), c.Сотрудник.ФИО, c.Должность.Название, ((DateTime)c.ДатаНазначения).ToShortDateString(), ((DateTime)c.ДатаОсвобождения).ToShortDateString() };
             return Json(new
             {
@@ -134,7 +140,7 @@ namespace ASP.Controllers
             {
                 db.ПослужнойСписок.Add(послужнойСписок);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             ViewBag.КодДолжности = new SelectList(db.Должность, "КодДолжности", "Название", послужнойСписок.КодДолжности);
@@ -170,7 +176,7 @@ namespace ASP.Controllers
             {
                 db.Entry(послужнойСписок).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
             ViewBag.КодДолжности = new SelectList(db.Должность, "КодДолжности", "Название", послужнойСписок.КодДолжности);
             ViewBag.КодСотрудника = new SelectList(db.Сотрудник, "КодСотрудника", "ФИО", послужнойСписок.КодСотрудника);
@@ -200,7 +206,7 @@ namespace ASP.Controllers
             ПослужнойСписок послужнойСписок = db.ПослужнойСписок.Find(id);
             db.ПослужнойСписок.Remove(послужнойСписок);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Home");
         }
 
         protected override void Dispose(bool disposing)

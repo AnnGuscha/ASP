@@ -121,7 +121,7 @@ namespace ASP.Controllers
             {
                 db.Услуга.Add(услуга);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             return View(услуга);
@@ -153,7 +153,7 @@ namespace ASP.Controllers
             {
                 db.Entry(услуга).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
             return View(услуга);
         }
@@ -181,7 +181,7 @@ namespace ASP.Controllers
             Услуга услуга = db.Услуга.Find(id);
             db.Услуга.Remove(услуга);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Home");
         }
 
         protected override void Dispose(bool disposing)

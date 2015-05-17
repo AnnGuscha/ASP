@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 namespace ASP.Models
 {
     using System;
@@ -14,8 +16,11 @@ namespace ASP.Models
     
     public partial class СписокУслуг
     {
+         [DisplayName("Список")]
         public int КодСписка { get; set; }
+         [DisplayName("Заказ")]
         public int КодЗаказа { get; set; }
+         [DisplayName("Услуга")]
         public int КодУслуги { get; set; }
     
         public virtual Заказ Заказ { get; set; }

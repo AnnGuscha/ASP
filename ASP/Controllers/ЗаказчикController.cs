@@ -30,75 +30,62 @@ namespace ASP.Controllers
         {
             var all = db.Заказчик.AsEnumerable();
             IEnumerable<Заказчик> filtered;
-            //Check whether the companies should be filtered by keyword
+
+            //Search
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                //Used if particulare columns are filtered 
-                var kodFilter = Convert.ToString(Request["sSearch_0"]);
-                var nameFilter = Convert.ToString(Request["sSearch_1"]);
-                var addresFilter = Convert.ToString(Request["sSearch_2"]);
-                var numberFilter = Convert.ToString(Request["sSearch_3"]);
-                var saleFilter = Convert.ToString(Request["sSearch_4"]);
-
-                //Optionally check whether the columns are searchable at all 
-                var isKodSearchable = Convert.ToBoolean(Request["bSearchable_0"]);
-                var isNameSearchable = Convert.ToBoolean(Request["bSearchable_1"]);
-                var isAddresSearchable = Convert.ToBoolean(Request["bSearchable_2"]);
-                var isNumberSearchable = Convert.ToBoolean(Request["bSearchable_3"]);
-                var isSaleSearchable = Convert.ToBoolean(Request["bSearchable_4"]);
-
                 filtered = db.Заказчик.AsEnumerable()
-                   .Where(c => //isKodSearchable && c.КодВида==Convert.ToInt32(param.sSearch)
-                       //||
-                               isNameSearchable && c.ФИО.ToLower().Contains(param.sSearch.ToLower())
-                               ||
-                               isAddresSearchable && c.Адрес.ToString().ToLower().Contains(param.sSearch.ToLower())
-                               ||
-                               isNumberSearchable && c.Телефон.ToString().ToLower().Contains(param.sSearch.ToLower())
-                               ||
-                               isSaleSearchable && c.Скидка.ToString().ToLower().Contains(param.sSearch.ToLower()));
+                   .Where(c => c.ФИО.ToLower().Contains(param.sSearch.ToLower())
+                               || c.Адрес.ToString().ToLower().Contains(param.sSearch.ToLower())
+                               || c.Телефон.ToString().ToLower().Contains(param.sSearch.ToLower())
+                               || c.Скидка.ToString().ToLower().Contains(param.sSearch.ToLower()));
             }
             else
             {
                 filtered = all;
             }
 
-            var isKodSortable = Convert.ToBoolean(Request["bSortable_0"]);
-            var isNameSortable = Convert.ToBoolean(Request["bSortable_1"]);
-            var isAddresSortable = Convert.ToBoolean(Request["bSortable_2"]);
-            var isNumberSortable = Convert.ToBoolean(Request["bSortable_3"]);
-            var isSaleSortable = Convert.ToBoolean(Request["bSortable_4"]);
+            //Sorting
             var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
-
-
             var sortDirection = Request["sSortDir_0"]; // asc or desc
-            if (sortColumnIndex == 0 && isKodSortable)
+            switch (sortColumnIndex)
             {
-                Func<Заказчик, int> orderingFunction = (c => c.КодЗаказчика);
-                filtered = SortHelper<Заказчик, int>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 1 && isNameSortable)
-            {
-                Func<Заказчик, string> orderingFunction = (c => c.ФИО);
-                filtered = SortHelper<Заказчик, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 2 && isAddresSortable)
-            {
-                Func<Заказчик, string> orderingFunction = (c => c.Адрес);
-                filtered = SortHelper<Заказчик, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 3 && isNumberSortable)
-            {
-                Func<Заказчик, int?> orderingFunction = (c => c.Телефон);
-                filtered = SortHelper<Заказчик, int?>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 4 && isSaleSortable)
-            {
-                Func<Заказчик, int?> orderingFunction = (c => c.Скидка);
-                filtered = SortHelper<Заказчик, int?>.Order(sortDirection, filtered, orderingFunction);
+                case 0:
+                    {
+                        Func<Заказчик, int> orderingFunction = (c => c.КодЗаказчика);
+                        filtered = SortHelper<Заказчик, int>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 1:
+                    {
+                        Func<Заказчик, string> orderingFunction = (c => c.ФИО);
+                        filtered = SortHelper<Заказчик, string>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 2:
+                    {
+                        Func<Заказчик, string> orderingFunction = (c => c.Адрес);
+                        filtered = SortHelper<Заказчик, string>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 3:
+                    {
+                        Func<Заказчик, int?> orderingFunction = (c => c.Телефон);
+                        filtered = SortHelper<Заказчик, int?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 4:
+                    {
+                        Func<Заказчик, int?> orderingFunction = (c => c.Скидка);
+                        filtered = SortHelper<Заказчик, int?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
             }
 
+            //Pagination
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
+
+            //Finish selection from DB
             var result = from c in displayed select new[] { Convert.ToString(c.КодЗаказчика), c.ФИО, c.Адрес, c.Телефон.ToString(), c.Скидка.ToString() };
             return Json(new
             {
@@ -142,7 +129,7 @@ namespace ASP.Controllers
             {
                 db.Заказчик.Add(заказчик);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             return View(заказчик);
@@ -174,7 +161,7 @@ namespace ASP.Controllers
             {
                 db.Entry(заказчик).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
             return View(заказчик);
         }
@@ -202,7 +189,7 @@ namespace ASP.Controllers
             Заказчик заказчик = db.Заказчик.Find(id);
             db.Заказчик.Remove(заказчик);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Home");
         }
 
         protected override void Dispose(bool disposing)

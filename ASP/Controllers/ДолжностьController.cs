@@ -109,7 +109,7 @@ namespace ASP.Controllers
             {
                 db.Должность.Add(должность);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             return View(должность);
@@ -141,7 +141,7 @@ namespace ASP.Controllers
             {
                 db.Entry(должность).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
             return View(должность);
         }
@@ -169,7 +169,7 @@ namespace ASP.Controllers
             Должность должность = db.Должность.Find(id);
             db.Должность.Remove(должность);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Home");
         }
 
         protected override void Dispose(bool disposing)

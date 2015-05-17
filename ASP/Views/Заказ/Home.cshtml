@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.List<ASP.Models.Заказы>
+﻿@model Models.ZakazDTO
 
 @{
     ViewBag.Title = "Заказы";
@@ -10,79 +10,53 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-
-        //// Setup - add a text input to each footer cell
-        //$('tfoot th').each(function () {
-        //    var title = $('#example thead th').eq($(this).index()).text();
-        //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-        //});
-
         var table = $('#myDataTable').dataTable({
             "bServerSide": true,
             "sAjaxSource": "AjaxHandler",
             "bProcessing": true,
             "bRetrieve": true,
-            "searching": false,
+            "searching": true,
             "columnDefs": [
-           {
+                {
+                    "render": function (data, type, row) {
+                        return ' <a data = \"' + data + '\" href=\"Edit/' + data + '\"> <img src="/Content/Images/pen-20.png"></a>' +
+                           //'<a href=\"Details/' + data + '\">Details</a> |' +
+                            '<a href=\"Delete/' + data + '\"><img src="/Content/Images/delete-20.png"/></a> ';
+                    },
+                    "width": "120px",
+                    "targets": 0
+                }
+            ],
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    if ($(column.footer()).text() != "") {
+                        var select = $('.sotrSelect')
+                            .on('change', function () {
+                                var val = $(this).val();
+                                column
+                                    .search(val)
+                                    .draw();
+                            });
+                    }
+                });
+            }
 
-               "render": function (data, type, row) {
-                   return ' <a href=\"Edit/' + data + '\">Edit</a> |' +
-                                 '<a href=\"Details/' + data + '\">Details</a> |' +
-                                ' <a href=\"Delete/' + data + '\">Delete</a> ';
-               },
-               "width": "120px",
-               "targets": 0
-           }
-          // ,{ "visible": false, "targets": [3] }
-            ]
-
-            //"aoColumns": [
-            //    {
-            //        "sName": "Код",
-            //        "bSearchable": false,
-            //        "bSortable": true,
-            //        "fnRender": function (oObj) {
-            //            return ' <a href=\"Edit/' + oObj.aData[0] + '\">Edit</a> |' +
-            //                    '<a href=\"Details/' + oObj.aData[0] + '\">Details</a> |' +
-            //                   ' <a href=\"Delete/' + oObj.aData[0] + '\">Delete</a> ';
-            //        }
-            //    },
-
-            //    { "sName": "Название" }
-            //]
-            //,initComplete: function () {
-            //    this.api().columns().every(function () {
-            //        var column = this;
-            //        var select = $('<select><option value=""></option></select>')
-            //            .appendTo($(column.footer()).empty())
-            //            .on('change', function () {
-            //                var val = $.fn.dataTable.util.escapeRegex(
-            //                    $(this).val()
-            //                );
-
-            //                column
-            //                    .search(val ? '^' + val + '$' : '', true, false)
-            //                    .draw();
-            //            });
-
-            //        column.data().unique().sort().each(function (d, j) {
-            //            select.append('<option value="' + d + '">' + d + '</option>')
-            //        });
-            //    });
-            //}
         });
 
-        //// Apply the search
-        //table.columns().every(function () {
-        //    var that = this;
+        $('#myDataTable tbody').on('click', 'tr', function () {
 
-        //    $('input', this.footer()).on('keyup change', function () {
-        //        that
-        //            .search(this.value)
-        //            .draw();
-        //    });
-        //});
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            var href = $('a:contains(" ")', this).attr('data');
+            window.location.href = "Details/" + href;
+
+        });
     });
 
 </script>
@@ -110,14 +84,30 @@
             </thead>
             <tfoot>
             <th></th>
-            <th>Сотрудник</th>
-            <th>Заказчик</th>
+            <th>
+                <select class="sotrSelect">
+                    <option value="">Все</option>
+                    @foreach (var item in Model.Sotrudnik)
+                    {
+                        <option value="@item.КодСотрудника">@item.ФИО</option>
+                    }
+                </select>
+            </th>
+            <th>
+                <select class="zakazchikSelect">
+                    <option value="">Все</option>
+                    @foreach (var item in Model.Zakazchik)
+                    {
+                        <option value="@item.КодЗаказчика">@item.ФИО</option>
+                    }
+                </select>
+            </th>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
             <th></th>
-          @*<th></th>*@
+            @*<th></th>*@
             </tfoot>
             <tbody></tbody>
 

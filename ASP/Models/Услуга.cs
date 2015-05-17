@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 namespace ASP.Models
 {
     using System;
@@ -20,6 +22,7 @@ namespace ASP.Models
         }
     
         public int КодУслуги { get; set; }
+        [DisplayName("Наименование услуги")]
         public string Наименование { get; set; }
         public string Описание { get; set; }
         public Nullable<double> Стоимость { get; set; }

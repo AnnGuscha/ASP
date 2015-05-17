@@ -230,6 +230,8 @@
     <Compile Include="Models\JQueryDataTableParamModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ListKomlekt.cs" />
+    <Compile Include="Models\ListUslug.cs" />
     <Compile Include="Models\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -245,6 +247,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PoslugSpisokDTO.cs" />
+    <Compile Include="Models\ZakazDTO.cs" />
     <Compile Include="Models\ВидКомплектующих.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

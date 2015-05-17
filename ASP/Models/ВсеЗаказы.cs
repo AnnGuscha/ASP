@@ -7,17 +7,22 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 namespace ASP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class ВсеЗаказы
     {
+        [DisplayName("Заказ")]
         public int КодЗаказа { get; set; }
         public string Заказчик { get; set; }
         public string Сотрудник { get; set; }
+        [DisplayName("Дата заказа")]
         public Nullable<System.DateTime> ДатаЗаказа { get; set; }
+        [DisplayName("Дата исполнения")]
         public Nullable<System.DateTime> ДатаИсполнения { get; set; }
         public Nullable<double> Предоплата { get; set; }
         public string Отметки { get; set; }

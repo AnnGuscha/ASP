@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 namespace ASP.Models
 {
     using System;
@@ -15,9 +17,13 @@ namespace ASP.Models
     public partial class ПослужнойСписок
     {
         public int КодСписка { get; set; }
+        [DisplayName("Должность")]
         public int КодДолжности { get; set; }
+        [DisplayName("Сотрудник")]
         public int КодСотрудника { get; set; }
+        [DisplayName("Дата назначения")]
         public Nullable<System.DateTime> ДатаНазначения { get; set; }
+        [DisplayName("Дата освобождения")]
         public Nullable<System.DateTime> ДатаОсвобождения { get; set; }
     
         public virtual Должность Должность { get; set; }

@@ -61,7 +61,6 @@ namespace ASP.Controllers
             var isStagSortable = Convert.ToBoolean(Request["bSortable_2"]);
             var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
 
-
             var sortDirection = Request["sSortDir_0"]; // asc or desc
             if (sortColumnIndex == 0 && isKodSortable)
             {
@@ -127,7 +126,7 @@ namespace ASP.Controllers
             {
                 db.Сотрудник.Add(сотрудник);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             return View(сотрудник);
@@ -159,7 +158,7 @@ namespace ASP.Controllers
             {
                 db.Entry(сотрудник).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
             return View(сотрудник);
         }
@@ -187,7 +186,7 @@ namespace ASP.Controllers
             Сотрудник сотрудник = db.Сотрудник.Find(id);
             db.Сотрудник.Remove(сотрудник);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Home");
         }
 
         protected override void Dispose(bool disposing)

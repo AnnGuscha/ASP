@@ -1,10 +1,9 @@
-﻿@model System.Collections.Generic.List<ASP.Models.ПослужнойСписок>
+﻿@model Models.PoslugSpisokDTO
 
 @{
     ViewBag.Title = "ПослужнойСписок";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<a href="~/Controllers/ПослужнойСписокController.cs">~/Controllers/ПослужнойСписокController.cs</a>
 
 <link href="@Url.Content("~/Content/jquery.dataTables.css")" rel="stylesheet" type="text/css" />
 <script src="@Url.Content("~/Scripts/Home/jquery.dataTables.min.js")" type="text/javascript"></script>
@@ -32,7 +31,7 @@
                 this.api().columns().every(function () {
                     var column = this;
                     if ($(column.footer()).text() != "") {
-                        var select = $('.vidselect')
+                        var select = $('.sotrSelect')
                             .on('change', function () {
                                 var val = $(this).val();
                                 column
@@ -42,6 +41,7 @@
                     }
                 });
             }
+
         });
 
         $('#myDataTable tbody').on('click', 'tr', function () {
@@ -59,9 +59,7 @@
         });
     });
 
-
 </script>
-
 
 <div id="container">
     <div id="demo">
@@ -73,7 +71,6 @@
             <thead>
                 <tr>
                     <th>
-                        КодСписка
                     </th>
                     <th>
                         Сотрудник
@@ -92,16 +89,22 @@
             <tfoot>
             <th></th>
             <th>
-                <select class="vidselect">
+                <select class="sotrSelect">
                     <option value="">Все</option>
-                    @foreach (var vid in Model.Vid)
+                    @foreach (var item in Model.Sotr)
                     {
-                        <option value="@vid.КодВида">@vid.Наименование</option>
+                        <option value="@item.КодСотрудника">@item.ФИО</option>
                     }
                 </select>
             </th>
             <th>
-                Должность
+                <select class="vidselect">
+                    <option value="">Все</option>
+                    @foreach (var item in Model.Dolgn)
+                    {
+                        <option value="@item.КодДолжности">@item.Название</option>
+                    }
+                </select>
             </th>
             <th></th>
             <th></th>

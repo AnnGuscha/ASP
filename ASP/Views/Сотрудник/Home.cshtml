@@ -7,25 +7,39 @@
 <link href="@Url.Content("~/Content/jquery.dataTables.css")" rel="stylesheet" type="text/css" />
 <script src="@Url.Content("~/Scripts/Home/jquery.dataTables.min.js")" type="text/javascript"></script>
 <script type="text/javascript">
-
+    
     $(document).ready(function () {
-
-        var oTable = $('#myDataTable').dataTable({
+        var table = $('#myDataTable').dataTable({
             "bServerSide": true,
             "sAjaxSource": "AjaxHandler",
             "bProcessing": true,
             "bRetrieve": true,
             "columnDefs": [
-           {
-               "render": function (data, type, row) {
-                   return ' <a href=\"Edit/' + data + '\">Edit</a> |' +
-                                 '<a href=\"Details/' + data + '\">Details</a> |' +
-                                ' <a href=\"Delete/' + data + '\">Delete</a> ';
-               },
-               "width": "120px",
-               "targets": 0
-           }       
-            ]  
+                {
+                    "render": function (data, type, row) {
+                        return ' <a  data = \"' + data + '\" href=\"Edit/' + data + '\" > <img src="/Content/Images/pen-20.png"/></a> |' +
+                            //'<a href=\"Details/' + data + '\">Details</a> |' +
+                            ' <a href=\"Delete/' + data + '\"><img src="/Content/Images/delete-20.png"/></a> ';
+                    },
+                    "width": "120px",
+                    "targets": 0
+                }
+            ]
+        });
+
+
+        $('#myDataTable tbody').on('click', 'tr', function () {
+
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            var href = $('a:contains(" ")', this).attr('data');
+            window.location.href = "Details/" + href;
+
         });
     });
 

@@ -7,6 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace ASP.Models
 {
     using System;
@@ -18,18 +21,23 @@ namespace ASP.Models
         {
             this.СписокКомплектующих = new HashSet<СписокКомплектующих>();
         }
-    
+        [DisplayName("Комплектующее")]
         public int КодКомплектующего { get; set; }
+        [DisplayName("Вид")]
         public int КодВида { get; set; }
         public string Марка { get; set; }
+        [DisplayName("Фирма производитель")]
         public string ФирмаПроизводитель { get; set; }
+        [DisplayName("Страна производитель")]
         public string СтранаПроизводитель { get; set; }
+        [DisplayName("Дата выпуска")]
         public Nullable<System.DateTime> ДатаВыпуска { get; set; }
         public string Характеристики { get; set; }
+        [DisplayName("Срок гарантии")]
         public Nullable<int> СрокГарантии { get; set; }
         public string Описание { get; set; }
         public Nullable<double> Цена { get; set; }
-    
+        
         public virtual ВидКомплектующих ВидКомплектующих { get; set; }
         public virtual ICollection<СписокКомплектующих> СписокКомплектующих { get; set; }
     }

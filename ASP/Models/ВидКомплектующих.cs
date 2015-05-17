@@ -7,22 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 namespace ASP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class ВидКомплектующих
     {
         public ВидКомплектующих()
         {
             this.Комплектующее = new HashSet<Комплектующее>();
         }
-    
+        [DisplayName("Вид")]
         public int КодВида { get; set; }
+        [DisplayName("Наименование вида")]
         public string Наименование { get; set; }
         public string Описание { get; set; }
-    
+
         public virtual ICollection<Комплектующее> Комплектующее { get; set; }
     }
 }

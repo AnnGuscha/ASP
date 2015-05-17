@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 namespace ASP.Models
 {
     using System;
@@ -20,6 +22,7 @@ namespace ASP.Models
         }
     
         public int КодДолжности { get; set; }
+        [DisplayName("Название должности")]
         public string Название { get; set; }
     
         public virtual ICollection<ПослужнойСписок> ПослужнойСписок { get; set; }

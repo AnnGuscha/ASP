@@ -24,42 +24,41 @@
                "width": "120px",
                "targets": 0
            }
-        ]
+            ]
         });
-    
 
-    $('#myDataTable tbody').on('click', 'tr', function () {
 
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-        }
-        else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-        var href = $('a:contains(" ")', this).attr('data');
-        window.location.href = "Details/"+href;
+        $('#myDataTable tbody').on('click', 'tr', function () {
 
-    });
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            var href = $('a:contains(" ")', this).attr('data');
+            window.location.href = "Details/" + href;
+
+        });
     });
 </script>
 
-    <div id="container">
-        <div id="demo">
-            <h2>Виды комплектующих</h2>
-            <p>
-                @Html.ActionLink("Добавить", "Create")
-            </p>
-            <table id="myDataTable" class="table table-striped table-bordered hover" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Наименование</th>
-                        <th>Описание</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+<div id="container">
+    <div id="demo">
+        <h2>Виды комплектующих</h2>
+        <p>
+            @Html.ActionLink("Добавить", "Create")
+        </p>
+        <table id="myDataTable" class="table table-striped table-bordered hover" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Наименование</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
-  
+</div>

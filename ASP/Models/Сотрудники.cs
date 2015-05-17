@@ -7,14 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 namespace ASP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Сотрудники
     {
+        [DisplayName("Сотрудник")]
         public int КодСотрудника { get; set; }
+        [DisplayName("ФИО сотрудника")]
         public string ФИО { get; set; }
         public Nullable<int> Стаж { get; set; }
     }

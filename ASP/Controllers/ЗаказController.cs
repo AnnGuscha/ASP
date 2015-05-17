@@ -24,103 +24,106 @@ namespace ASP.Controllers
 
         public ActionResult Home()
         {
-            return View();
+            return View(new ZakazDTO(db.Сотрудник.ToList(),db.Заказчик.ToList()));
         }
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
             var all = db.ВсеЗаказы.AsEnumerable();
             IEnumerable<ВсеЗаказы> filtered;
-            //Check whether the companies should be filtered by keyword
 
-            if (!string.IsNullOrEmpty(param.sSearch))
+            //Filter
+            var sotrFilter = Convert.ToString(Request["sSearch_1"]);
+            var zaklFilter = Convert.ToString(Request["sSearch_2"]);
+            if (sotrFilter != "" || zaklFilter != "")
             {
-                //Used if particulare columns are filtered 
-                var kodFilter = Convert.ToString(Request["sSearch_0"]);
-                var zakazchikFilter = Convert.ToString(Request["sSearch_1"]);
-                var sotrudnikFilter = Convert.ToString(Request["sSearch_2"]);
-
-                //Optionally check whether the columns are searchable at all 
-                var isKodSearchable = Convert.ToBoolean(Request["bSearchable_0"]);
-                var isSotrudnikSearchable = Convert.ToBoolean(Request["bSearchable_1"]);
-                var isZakazchikSearchable = Convert.ToBoolean(Request["bSearchable_2"]);
-                var isDataZakazaSearchable = Convert.ToBoolean(Request["bSearchable_3"]);
-                var isDataIspolneniyaSearchable = Convert.ToBoolean(Request["bSearchable_4"]);
-                var isPredoplataSearchable = Convert.ToBoolean(Request["bSearchable_5"]);
-                var isStoimostSearchable = Convert.ToBoolean(Request["bSearchable_6"]);
-                var isGarantiyaSearchable = Convert.ToBoolean(Request["bSearchable_7"]);
-                var isOtmetkiSearchable = Convert.ToBoolean(Request["bSearchable_8"]);
-
-
                 filtered = db.ВсеЗаказы.AsEnumerable()
-                   .Where(c => isSotrudnikSearchable && c.Сотрудник.ToLower().Contains(param.sSearch.ToLower())
-                               ||
-                               isZakazchikSearchable && c.Заказчик.ToLower().Contains(param.sSearch.ToLower()));
+                .Where(c => c.Сотрудник == sotrFilter || c.Заказчик == zaklFilter);
+
             }
             else
             {
                 filtered = all;
             }
-            var isSortableKod = Convert.ToBoolean(Request["bSortable_0"]);
-            var isSortableSotrudnik = Convert.ToBoolean(Request["bSortable_1"]);
-            var isSortableZakazchik = Convert.ToBoolean(Request["bSortable_2"]);
-            var isSortableDataZakaza = Convert.ToBoolean(Request["bSortable_3"]);
-            var isSortableDataIspolneniya = Convert.ToBoolean(Request["bSortable_4"]);
-            var isSortablePredoplata = Convert.ToBoolean(Request["bSortable_5"]);
-            var isSortableStoimost = Convert.ToBoolean(Request["bSortable_6"]);
-            var isSortableGarantiya = Convert.ToBoolean(Request["bSortable_7"]);
-            var isSortableOtmetki = Convert.ToBoolean(Request["bSortable_8"]);
+
+            //Search
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                filtered = filtered
+                   .Where(c => c.Сотрудник.ToLower().Contains(param.sSearch.ToLower())
+                               || c.Заказчик.ToLower().Contains(param.sSearch.ToLower())                              
+                               || c.Отметки.ToLower().Contains(param.sSearch.ToLower())
+                               || c.ДатаЗаказа.ToString().ToLower().Contains(param.sSearch.ToLower())
+                               || c.ДатаИсполнения.ToString().ToLower().Contains(param.sSearch.ToLower())
+                               || c.Предоплата.ToString().ToLower().Contains(param.sSearch.ToLower())
+                               || c.Стоимость.ToString().ToLower().Contains(param.sSearch.ToLower())
+                               || c.Гарантия.ToString().ToLower().Contains(param.sSearch.ToLower()));
+            }
+
+            //Sorting
             var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
-
-
             var sortDirection = Request["sSortDir_0"]; // asc or desc
-            if (sortColumnIndex == 0 && isSortableKod)
+            switch (sortColumnIndex)
             {
-                Func<ВсеЗаказы, int> orderingFunction = (c => c.КодЗаказа);
-                filtered = SortHelper<ВсеЗаказы, int>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 1 && isSortableSotrudnik)
-            {
-                Func<ВсеЗаказы, string> orderingFunction = (c => c.Сотрудник);
-                filtered = SortHelper<ВсеЗаказы, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 2 && isSortableZakazchik)
-            {
-                Func<ВсеЗаказы, string> orderingFunction = (c => c.Заказчик);
-                filtered = SortHelper<ВсеЗаказы, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 3 && isSortableDataZakaza)
-            {
-                Func<ВсеЗаказы, DateTime?> orderingFunction = (c => c.ДатаЗаказа);
-                filtered = SortHelper<ВсеЗаказы, DateTime?>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 4 && isSortableDataIspolneniya)
-            {
-                Func<ВсеЗаказы, DateTime?> orderingFunction = (c => c.ДатаИсполнения);
-                filtered = SortHelper<ВсеЗаказы, DateTime?>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 5 && isSortablePredoplata)
-            {
-                Func<ВсеЗаказы, double?> orderingFunction = (c => c.Предоплата);
-                filtered = SortHelper<ВсеЗаказы, double?>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 6 && isSortableStoimost)
-            {
-                Func<ВсеЗаказы, double?> orderingFunction = (c => c.Стоимость);
-                filtered = SortHelper<ВсеЗаказы, double?>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 7 && isSortableGarantiya)
-            {
-                Func<ВсеЗаказы, int?> orderingFunction = (c => c.Гарантия);
-                filtered = SortHelper<ВсеЗаказы, int?>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 8 && isSortableOtmetki)
-            {
-                Func<ВсеЗаказы, string> orderingFunction = (c => c.Отметки);
-                filtered = SortHelper<ВсеЗаказы, string>.Order(sortDirection, filtered, orderingFunction);
+                case 0:
+                    {
+                        Func<ВсеЗаказы, int> orderingFunction = (c => c.КодЗаказа);
+                        filtered = SortHelper<ВсеЗаказы, int>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 1:
+                    {
+                        Func<ВсеЗаказы, string> orderingFunction = (c => c.Сотрудник);
+                        filtered = SortHelper<ВсеЗаказы, string>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 2:
+                    {
+                        Func<ВсеЗаказы, string> orderingFunction = (c => c.Заказчик);
+                        filtered = SortHelper<ВсеЗаказы, string>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 3:
+                    {
+                        Func<ВсеЗаказы, DateTime?> orderingFunction = (c => c.ДатаЗаказа);
+                        filtered = SortHelper<ВсеЗаказы, DateTime?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 4:
+                    {
+                        Func<ВсеЗаказы, DateTime?> orderingFunction = (c => c.ДатаИсполнения);
+                        filtered = SortHelper<ВсеЗаказы, DateTime?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 5:
+                    {
+                        Func<ВсеЗаказы, double?> orderingFunction = (c => c.Предоплата);
+                        filtered = SortHelper<ВсеЗаказы, double?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 6:
+                    {
+                        Func<ВсеЗаказы, double?> orderingFunction = (c => c.Стоимость);
+                        filtered = SortHelper<ВсеЗаказы, double?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 7:
+                    {
+                        Func<ВсеЗаказы, int?> orderingFunction = (c => c.Гарантия);
+                        filtered = SortHelper<ВсеЗаказы, int?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 8:
+                    {
+                        Func<ВсеЗаказы, string> orderingFunction = (c => c.Отметки);
+                        filtered = SortHelper<ВсеЗаказы, string>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
             }
 
-
+            //Pagination
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
+
+            //Finish selection from DB
             var result = from c in displayed select new[] { Convert.ToString(c.КодЗаказа), c.Сотрудник, c.Заказчик, ((DateTime)c.ДатаЗаказа).ToShortDateString(), ((DateTime)c.ДатаИсполнения).ToShortDateString(), c.Предоплата.ToString(), c.Стоимость.ToString(), c.Гарантия.ToString(), c.Отметки };
             return Json(new
             {
@@ -166,7 +169,7 @@ namespace ASP.Controllers
             {
                 db.Заказ.Add(заказ);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             ViewBag.КодСотрудника = new SelectList(db.Сотрудник, "КодСотрудника", "ФИО", заказ.КодСотрудника);
@@ -202,7 +205,7 @@ namespace ASP.Controllers
             {
                 db.Entry(заказ).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
             ViewBag.КодСотрудника = new SelectList(db.Сотрудник, "КодСотрудника", "ФИО", заказ.КодСотрудника);
             ViewBag.КодЗаказчика = new SelectList(db.Заказчик, "КодЗаказчика", "ФИО", заказ.КодЗаказчика);
@@ -232,7 +235,7 @@ namespace ASP.Controllers
             Заказ заказ = db.Заказ.Find(id);
             db.Заказ.Remove(заказ);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Home");
         }
 
         protected override void Dispose(bool disposing)

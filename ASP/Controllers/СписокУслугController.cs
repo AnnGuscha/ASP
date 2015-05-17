@@ -24,61 +24,63 @@ namespace ASP.Controllers
 
         public ActionResult Home()
         {
-            return View();
+            return View(new ListUslugDTO(db.Заказ.ToList(), db.Услуга.ToList()));
         }
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
-            var all = db.СписокКомплектующих.AsEnumerable();
-            IEnumerable<СписокКомплектующих> filtered;
-            //Check whether the companies should be filtered by keyword
+            var all = db.СписокУслуг.AsEnumerable();
+            IEnumerable<СписокУслуг> filtered;
 
-            if (!string.IsNullOrEmpty(param.sSearch))
+            //Filter
+            int zakazId, uslugaId;
+            var isNum1 = int.TryParse(Convert.ToString(Request["sSearch_1"]), out zakazId);
+            var isNum2 = int.TryParse(Convert.ToString(Request["sSearch_2"]), out uslugaId);
+            if (isNum1 || isNum2)
             {
-                //Used if particulare columns are filtered 
-                var kodFilter = Convert.ToString(Request["sSearch_0"]);
-                var zakazFilter = Convert.ToString(Request["sSearch_1"]);
-                var komplFilter = Convert.ToString(Request["sSearch_2"]);
+                filtered = db.СписокУслуг.AsEnumerable().Where(c => c.КодЗаказа == zakazId || c.КодУслуги == uslugaId);
 
-                //Optionally check whether the columns are searchable at all 
-                var isKodSearchable = Convert.ToBoolean(Request["bSearchable_0"]);
-                var isZakazSearchable = Convert.ToBoolean(Request["bSearchable_1"]);
-                var isKomplSearchable = Convert.ToBoolean(Request["bSearchable_2"]);
-
-                filtered = db.СписокКомплектующих.AsEnumerable()
-                   .Where(c => isZakazSearchable && c.КодЗаказа.ToString().ToLower().Contains(param.sSearch.ToLower())
-                               ||
-                               isKomplSearchable && c.Комплектующее.Марка.ToLower().Contains(param.sSearch.ToLower()));
             }
             else
             {
                 filtered = all;
             }
-            var isSortable0 = Convert.ToBoolean(Request["bSortable_0"]);
-            var isSortable1 = Convert.ToBoolean(Request["bSortable_1"]);
-            var isSortable2 = Convert.ToBoolean(Request["bSortable_2"]);
+
+            //Search
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                filtered = filtered.Where(c => c.КодЗаказа.ToString().ToLower().Contains(param.sSearch.ToLower())
+                               || c.Услуга.Наименование.ToLower().Contains(param.sSearch.ToLower()));
+            }
+            //Sorting
             var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
-
-
             var sortDirection = Request["sSortDir_0"]; // asc or desc
-            if (sortColumnIndex == 0 && isSortable0)
+            switch (sortColumnIndex)
             {
-                Func<СписокКомплектующих, int> orderingFunction = (c => c.КодСписка);
-                filtered = SortHelper<СписокКомплектующих, int>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 1 && isSortable1)
-            {
-                Func<СписокКомплектующих, int> orderingFunction = (c => c.КодЗаказа);
-                filtered = SortHelper<СписокКомплектующих, int>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 2 && isSortable2)
-            {
-                Func<СписокКомплектующих, string> orderingFunction = (c => c.Комплектующее.Марка);
-                filtered = SortHelper<СписокКомплектующих, string>.Order(sortDirection, filtered, orderingFunction);
+                case 0:
+                    {
+                        Func<СписокУслуг, int> orderingFunction = (c => c.КодСписка);
+                        filtered = SortHelper<СписокУслуг, int>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 1:
+                    {
+                        Func<СписокУслуг, int> orderingFunction = (c => c.КодЗаказа);
+                        filtered = SortHelper<СписокУслуг, int>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 2:
+                    {
+                        Func<СписокУслуг, string> orderingFunction = (c => c.Услуга.Наименование);
+                        filtered = SortHelper<СписокУслуг, string>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
             }
 
-
+            //Pagination
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
-            var result = from c in displayed select new[] { Convert.ToString(c.КодСписка), c.КодЗаказа.ToString(), c.Комплектующее.Марка };
+
+            //Finish selection from DB
+            var result = from c in displayed select new[] { Convert.ToString(c.КодСписка), c.КодЗаказа.ToString(), c.Услуга.Наименование };
             return Json(new
             {
                 sEcho = param.sEcho,
@@ -123,7 +125,7 @@ namespace ASP.Controllers
             {
                 db.СписокУслуг.Add(списокУслуг);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
 
             ViewBag.КодЗаказа = new SelectList(db.Заказ, "КодЗаказа", "КодЗаказа", списокУслуг.КодЗаказа);
@@ -159,7 +161,7 @@ namespace ASP.Controllers
             {
                 db.Entry(списокУслуг).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Home");
             }
             ViewBag.КодЗаказа = new SelectList(db.Заказ, "КодЗаказа", "КодЗаказа", списокУслуг.КодЗаказа);
             ViewBag.КодУслуги = new SelectList(db.Услуга, "КодУслуги", "Наименование", списокУслуг.КодУслуги);
@@ -189,7 +191,7 @@ namespace ASP.Controllers
             СписокУслуг списокУслуг = db.СписокУслуг.Find(id);
             db.СписокУслуг.Remove(списокУслуг);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Home");
         }
 
         protected override void Dispose(bool disposing)
