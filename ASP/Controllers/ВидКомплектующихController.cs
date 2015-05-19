@@ -15,6 +15,7 @@ namespace ASP.Controllers
     {
         private КомпьютернаяФирмаEntities db = new КомпьютернаяФирмаEntities();
 
+        
         // GET: ВидКомплектующих
         public ActionResult Index()
         {
@@ -24,7 +25,6 @@ namespace ASP.Controllers
         public ActionResult Home()
         {
             return View(db.ВидКомплектующих.ToList());
-
         }
 
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)

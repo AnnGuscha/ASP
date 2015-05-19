@@ -16,12 +16,14 @@ namespace ASP.Controllers
         private КомпьютернаяФирмаEntities db = new КомпьютернаяФирмаEntities();
 
         // GET: СписокКомплектующих
+        [Authorize]
         public ActionResult Index()
         {
             var списокКомплектующих = db.СписокКомплектующих.Include(с => с.Заказ).Include(с => с.Комплектующее);
             return View(списокКомплектующих.ToList());
         }
 
+        [Authorize]
         public ActionResult Home()
         {
             return View(new ListKomlektDTO(db.Заказ.ToList(), db.Комплектующее.ToList()));
@@ -29,21 +31,25 @@ namespace ASP.Controllers
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
             var all = db.СписокКомплектующих.AsEnumerable();
-            IEnumerable<СписокКомплектующих> filtered;
+            var filtered = all;
 
             //Filter
-            int zakazId, komplektId;
+            int zakazId;
             var isNum1 = int.TryParse(Convert.ToString(Request["sSearch_1"]), out zakazId);
-            var isNum2 = int.TryParse(Convert.ToString(Request["sSearch_2"]), out komplektId);
-            if (isNum1 || isNum2)
+            if (isNum1)
             {
-                filtered = db.СписокКомплектующих.AsEnumerable()
-                .Where(c => c.КодЗаказа == zakazId || c.КодКомплектующего == komplektId);
+                filtered = filtered
+                .Where(c => c.КодЗаказа == zakazId);
 
             }
-            else
+
+            int komplektId;
+            var isNum2 = int.TryParse(Convert.ToString(Request["sSearch_2"]), out komplektId);
+            if (isNum2)
             {
-                filtered = all;
+                filtered = filtered
+                .Where(c => c.КодКомплектующего == komplektId);
+
             }
 
             //Search

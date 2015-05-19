@@ -29,20 +29,25 @@ namespace ASP.Controllers
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
             var all = db.СписокУслуг.AsEnumerable();
-            IEnumerable<СписокУслуг> filtered;
+            var filtered=all;
 
             //Filter
-            int zakazId, uslugaId;
+            int zakazId;
             var isNum1 = int.TryParse(Convert.ToString(Request["sSearch_1"]), out zakazId);
-            var isNum2 = int.TryParse(Convert.ToString(Request["sSearch_2"]), out uslugaId);
-            if (isNum1 || isNum2)
+            if (isNum1)
             {
-                filtered = db.СписокУслуг.AsEnumerable().Where(c => c.КодЗаказа == zakazId || c.КодУслуги == uslugaId);
+                filtered = filtered
+                .Where(c => c.КодЗаказа == zakazId);
 
             }
-            else
+
+            int uslugaId;
+            var isNum2 = int.TryParse(Convert.ToString(Request["sSearch_2"]), out uslugaId);
+            if (isNum2)
             {
-                filtered = all;
+                filtered = filtered
+                .Where(c => c.КодУслуги == uslugaId);
+
             }
 
             //Search

@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <meta name="description" content="My ASP.NET Application" />
+    <link rel="Stylesheet" href="~/Content/StyleTable.css" type="text/css" />
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                @Html.ActionLink("Компьютерная фирма", "Home", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" role="navigation">                   
+                    <li>@Html.ActionLink("Главная", "Home", "Home")</li>
+                    <li>@Html.ActionLink("Сведения", "About", "Home")</li>
+                    <li>@Html.ActionLink("Контаты", "Contact", "Home")</li>
+                    <li class="dropdown">
+                        <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Каталог<b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                            <li>@Html.ActionLink("Виды комплектующих", "Home", "ВидКомплектующих")</li>
+                            <li>@Html.ActionLink("Комплектующие", "Home", "Комплектующее")</li>
+                            <li>@Html.ActionLink("Услуги", "Home", "Услуга")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Отдел кадров<b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                            <li>@Html.ActionLink("Сотрудники", "Home", "Сотрудник")</li>
+                            <li>@Html.ActionLink("Должности", "Home", "Должность")</li>
+                            <li>@Html.ActionLink("Послужной список", "Home", "ПослужнойСписок")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Заказы<b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                            <li>@Html.ActionLink("Заказы", "Home", "Заказ")</li>
+                            <li>@Html.ActionLink("Список комплектующих", "Home", "СписокКомплектующих")</li>
+                            <li>@Html.ActionLink("Список услуг", "Home", "СписокУслуг")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("Заказчики", "Home", "Заказчик")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Моё ASP.NET Приложение</p>
+        </footer>
+    </div>
+</body>
+</html>

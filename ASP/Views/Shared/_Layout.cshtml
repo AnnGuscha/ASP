@@ -23,31 +23,6 @@
                     <li>@Html.ActionLink("Главная", "Index", "Home")</li>
                     <li>@Html.ActionLink("Сведения", "About", "Home")</li>
                     <li>@Html.ActionLink("Контаты", "Contact", "Home")</li>
-                    <li class="dropdown">
-                        <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Каталог<b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                            <li>@Html.ActionLink("Виды комплектующих", "Home", "ВидКомплектующих")</li>
-                            <li>@Html.ActionLink("Комплектующие", "Home", "Комплектующее")</li>
-                            <li>@Html.ActionLink("Услуги", "Home", "Услуга")</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Отдел кадров<b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                            <li>@Html.ActionLink("Сотрудники", "Home", "Сотрудник")</li>
-                            <li>@Html.ActionLink("Должности", "Home", "Должность")</li>
-                            <li>@Html.ActionLink("Послужной список", "Home", "ПослужнойСписок")</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Заказы<b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                            <li>@Html.ActionLink("Заказы", "Home", "Заказ")</li>
-                            <li>@Html.ActionLink("Список комплектующих", "Home", "СписокКомплектующих")</li>
-                            <li>@Html.ActionLink("Список услуг", "Home", "СписокУслуг")</li>
-                        </ul>
-                    </li>
-                    <li>@Html.ActionLink("Заказчики", "Home", "Заказчик")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

@@ -7,10 +7,15 @@ namespace ASP.Models
 {
     public class ZakazDTO
     {
-        public ZakazDTO(IList<Сотрудник> sotrudnik, IList<Заказчик> zakazchik)
+        private IList<Сотрудник> sotrudnik;
+        private IList<Заказчик> zakazchik;
+        private IList<Комплектующее> komplect;
+
+        public ZakazDTO(IList<Сотрудник> sotrudnik, IList<Заказчик> zakazchik, IList<Комплектующее> komplect )
         {
             this.sotrudnik = sotrudnik;
             this.zakazchik = zakazchik;
+            this.komplect = komplect;
         }
 
         public IList<Сотрудник> Sotrudnik
@@ -25,7 +30,10 @@ namespace ASP.Models
             set { zakazchik = value; }
         }
 
-        private IList<Сотрудник> sotrudnik;
-        private IList<Заказчик> zakazchik;
+        public IList<Комплектующее> Komplect
+        {
+            get { return komplect; }
+            set { komplect = value; }
+        }
     }
 }

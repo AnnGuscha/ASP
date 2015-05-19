@@ -49,11 +49,12 @@ namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
+                   // return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Home", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    ModelState.AddModelError("", "Неправильные имя пользователя или пароль.");
                 }
             }
 
@@ -83,7 +84,7 @@ namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS.Controllers
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Home", "Home");
                 }
                 else
                 {

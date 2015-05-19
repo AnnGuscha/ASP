@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using ASP;
 
 namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS
 {
@@ -18,6 +19,9 @@ namespace ASP.NET_MVC5_Bootstrap3_3_1_LESS
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            GlobalFilters.Filters.Add(new HandleErrorAttribute());
+            GlobalFilters.Filters.Add(new System.Web.Mvc.AuthorizeAttribute());
         }
+
     }
 }

@@ -24,26 +24,41 @@ namespace ASP.Controllers
 
         public ActionResult Home()
         {
-            return View(new ZakazDTO(db.Сотрудник.ToList(),db.Заказчик.ToList()));
+            return View(new ZakazDTO(db.Сотрудник.ToList(),db.Заказчик.ToList(),db.Комплектующее.ToList()));
         }
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
+           // var all = db.ВсеЗаказы.AsQueryable();
             var all = db.ВсеЗаказы.AsEnumerable();
-            IEnumerable<ВсеЗаказы> filtered;
+            var filtered = all;
+
+            int komplektId;
+            var isNum8 = int.TryParse(Convert.ToString(Request["sSearch_8"]), out komplektId);
+            if (isNum8)
+            {
+                filtered = from f in filtered
+                           from sk in db.СписокКомплектующих.AsQueryable()
+                           where f.КодЗаказа == sk.КодЗаказа
+                           where sk.КодКомплектующего == komplektId
+                           select f;
+            }
 
             //Filter
             var sotrFilter = Convert.ToString(Request["sSearch_1"]);
-            var zaklFilter = Convert.ToString(Request["sSearch_2"]);
-            if (sotrFilter != "" || zaklFilter != "")
+            if (sotrFilter != "")
             {
-                filtered = db.ВсеЗаказы.AsEnumerable()
-                .Where(c => c.Сотрудник == sotrFilter || c.Заказчик == zaklFilter);
+                filtered = filtered
+                .Where(c => c.Сотрудник == sotrFilter);
 
             }
-            else
+            var zaklFilter = Convert.ToString(Request["sSearch_2"]);
+            if (zaklFilter != "")
             {
-                filtered = all;
+                filtered = filtered
+                .Where(c =>c.Заказчик == zaklFilter);
+
             }
+
 
             //Search
             if (!string.IsNullOrEmpty(param.sSearch))

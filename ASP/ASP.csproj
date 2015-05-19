@@ -522,6 +522,8 @@
     <Content Include="Views\Услуга\Index.cshtml" />
     <Content Include="Views\ВидКомплектующих\Home.cshtml" />
     <Content Include="Views\Комплектующее\Home.cshtml" />
+    <Content Include="Views\Shared\_Layout_Autorize.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
     <None Include="Views\Должность\Home.cshtml" />
     <None Include="Views\Заказ\Home.cshtml" />
     <None Include="Views\Заказчик\Home.cshtml" />

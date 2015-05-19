@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "ПослужнойСписок";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_Autorize.cshtml";
 }
 
 <link href="@Url.Content("~/Content/jquery.dataTables.css")" rel="stylesheet" type="text/css" />
@@ -31,7 +31,7 @@
                 this.api().columns().every(function () {
                     var column = this;
                     if ($(column.footer()).text() != "") {
-                        var select = $('.sotrSelect')
+                        var select = $('.sortSelect' + column.index())
                             .on('change', function () {
                                 var val = $(this).val();
                                 column
@@ -89,7 +89,7 @@
             <tfoot>
             <th></th>
             <th>
-                <select class="sotrSelect">
+                <select class="sortSelect1">
                     <option value="">Все</option>
                     @foreach (var item in Model.Sotr)
                     {
@@ -98,7 +98,7 @@
                 </select>
             </th>
             <th>
-                <select class="vidselect">
+                <select class="sortSelect2">
                     <option value="">Все</option>
                     @foreach (var item in Model.Dolgn)
                     {
