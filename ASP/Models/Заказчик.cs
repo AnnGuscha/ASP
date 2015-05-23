@@ -26,6 +26,7 @@ namespace ASP.Models
         [DisplayName("ФИО заказчика")]
         public string ФИО { get; set; }
         public string Адрес { get; set; }
+        [DataType(DataType.PhoneNumber)]
         public Nullable<int> Телефон { get; set; }
         public Nullable<int> Скидка { get; set; }
 

@@ -79,7 +79,7 @@ namespace ASP.Controllers
 
 
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
-            var result = from c in displayed select new[] { Convert.ToString(c.КодУслуги), c.Наименование, c.Описание };
+            var result = from c in displayed select new[] { Convert.ToString(c.КодУслуги), c.Наименование, c.Описание ,c.Стоимость.ToString()};
             return Json(new
             {
                 sEcho = param.sEcho,
@@ -103,7 +103,7 @@ namespace ASP.Controllers
             }
             return View(услуга);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Услуга/Create
         public ActionResult Create()
         {
@@ -126,7 +126,7 @@ namespace ASP.Controllers
 
             return View(услуга);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Услуга/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -172,7 +172,7 @@ namespace ASP.Controllers
             }
             return View(услуга);
         }
-
+        [Authorize(Users = "admin")]
         // POST: Услуга/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

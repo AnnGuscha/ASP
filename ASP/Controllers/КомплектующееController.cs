@@ -22,7 +22,7 @@ namespace ASP.Controllers
 
         public ActionResult Home()
         {
-            return View(new CompDTO(db.ВидКомплектующих.ToList()));
+            return View(new KompDTO(db.ВидКомплектующих.ToList()));
         }
 
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
@@ -116,15 +116,27 @@ namespace ASP.Controllers
             //Pagination
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
 
-            //Finish selection from DB
-            var result = from c in displayed
-                         select
-                             new[]
-                    {
-                        Convert.ToString(c.КодКомплектующего), c.Марка, c.ВидКомплектующих.Наименование, c.Цена.ToString(),
-                        c.СтранаПроизводитель, c.ФирмаПроизводитель, ((DateTime) c.ДатаВыпуска).ToShortDateString(),
-                        c.СрокГарантии.ToString(), c.Описание, c.Характеристики
-                    };
+            //Finish selection from DB ((DateTime) c.ДатаВыпуска).ToShortDateString()
+            List<string[]> result = new List<string[]>();
+            foreach (var c in displayed)
+            {
+                string data;
+                if (c.ДатаВыпуска == null)
+                    data = c.ДатаВыпуска.ToString();
+                else
+                    data = ((DateTime)c.ДатаВыпуска).ToShortDateString();
+                result.Add(new string[] { Convert.ToString(c.КодКомплектующего), c.Марка, c.ВидКомплектующих.Наименование, c.Цена.ToString(),
+                        c.СтранаПроизводитель, c.ФирмаПроизводитель, data,
+                        c.СрокГарантии.ToString(), c.Описание, c.Характеристики});
+            }
+            //var result = from c in displayed
+            //             select
+            //                  new[]
+            //        {
+            //            Convert.ToString(c.КодКомплектующего), c.Марка, c.ВидКомплектующих.Наименование, c.Цена.ToString(),
+            //            c.СтранаПроизводитель, c.ФирмаПроизводитель, c.ДатаВыпуска.ToString(),
+            //            c.СрокГарантии.ToString(), c.Описание, c.Характеристики
+            //        };
 
             return Json(new
             {
@@ -150,7 +162,7 @@ namespace ASP.Controllers
             }
             return View(комплектующее);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Комплектующее/Create
         public ActionResult Create()
         {
@@ -179,7 +191,7 @@ namespace ASP.Controllers
             ViewBag.КодВида = new SelectList(db.ВидКомплектующих, "КодВида", "Наименование", комплектующее.КодВида);
             return View(комплектующее);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Комплектующее/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -216,7 +228,7 @@ namespace ASP.Controllers
             ViewBag.КодВида = new SelectList(db.ВидКомплектующих, "КодВида", "Наименование", комплектующее.КодВида);
             return View(комплектующее);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Комплектующее/Delete/5
         public ActionResult Delete(int? id)
         {

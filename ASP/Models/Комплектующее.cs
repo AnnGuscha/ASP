@@ -9,6 +9,7 @@
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Policy;
 
 namespace ASP.Models
 {
@@ -29,13 +30,18 @@ namespace ASP.Models
         [DisplayName("Фирма производитель")]
         public string ФирмаПроизводитель { get; set; }
         [DisplayName("Страна производитель")]
-        public string СтранаПроизводитель { get; set; }
+        public string СтранаПроизводитель { get; set; }   
         [DisplayName("Дата выпуска")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)] 
         public Nullable<System.DateTime> ДатаВыпуска { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Характеристики { get; set; }
         [DisplayName("Срок гарантии")]
         public Nullable<int> СрокГарантии { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Описание { get; set; }
+        [DataType(DataType.Currency)]
         public Nullable<double> Цена { get; set; }
         
         public virtual ВидКомплектующих ВидКомплектующих { get; set; }

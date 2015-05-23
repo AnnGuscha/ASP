@@ -23,11 +23,32 @@
                     },
                     "width": "120px",
                     "targets": 0
+                },
+                {
+                    "render": function (data, type, row) {
+                        return '';
+                    },
+                    "width": "0px",
+                    "visible": false,
+                    "targets": 3
+                }            
+            ],
+      
+        initComplete: function () {
+            this.api().columns().every(function () {
+                var column = this;
+                if ($(column.footer()).text() != "") {
+                    var select = $('.sortSelect' + column.index())
+                        .on('change', function () {
+                            var val = $(this).val();
+                            column
+                                .search(val)
+                                .draw();
+                        });
                 }
-            ]
-        });
-
-
+            });
+        }
+    });
         $('#myDataTable tbody').on('click', 'tr', function () {
 
             if ($(this).hasClass('selected')) {
@@ -52,15 +73,35 @@
         <p>
             @Html.ActionLink("Добавить", "Create")
         </p>
+        <ul class="list-inline">     
+            <li class="pull-right">
+                <ul class="list-inline ">
+                    <li>@Html.Label("Фильтр:")</li>
+                    <li>
+                        <select class="sortSelect3">
+                            <option value="">Все</option>
+                            <option value="1">Сотрудники, ответственные за текущие заказы</option>
+                        </select>
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
         <table id="myDataTable" class="table table-striped table-bordered hover" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th>Код</th>
                     <th>ФИО</th>
                     <th>Стаж</th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tfoot>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th> </th>     
+            </tfoot>
         </table>
     </div>
 </div>

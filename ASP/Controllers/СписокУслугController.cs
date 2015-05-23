@@ -110,7 +110,7 @@ namespace ASP.Controllers
             }
             return View(списокУслуг);
         }
-
+        [Authorize(Users = "admin")]
         // GET: СписокУслуг/Create
         public ActionResult Create()
         {
@@ -137,7 +137,7 @@ namespace ASP.Controllers
             ViewBag.КодУслуги = new SelectList(db.Услуга, "КодУслуги", "Наименование", списокУслуг.КодУслуги);
             return View(списокУслуг);
         }
-
+        [Authorize(Users = "admin")]
         // GET: СписокУслуг/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -172,7 +172,7 @@ namespace ASP.Controllers
             ViewBag.КодУслуги = new SelectList(db.Услуга, "КодУслуги", "Наименование", списокУслуг.КодУслуги);
             return View(списокУслуг);
         }
-
+        [Authorize(Users = "admin")]
         // GET: СписокУслуг/Delete/5
         public ActionResult Delete(int? id)
         {

@@ -5,9 +5,9 @@ using System.Web;
 
 namespace ASP.Models
 {
-    public class CompDTO
+    public class KompDTO
     {
-        public CompDTO(IList<ВидКомплектующих> vid)
+        public KompDTO(IList<ВидКомплектующих> vid)
         {
             Vid = vid;
         }

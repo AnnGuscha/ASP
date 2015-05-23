@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ASP.Models
 {
@@ -22,8 +23,12 @@ namespace ASP.Models
         [DisplayName("Сотрудник")]
         public int КодСотрудника { get; set; }
         [DisplayName("Дата назначения")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)] 
         public Nullable<System.DateTime> ДатаНазначения { get; set; }
         [DisplayName("Дата освобождения")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)] 
         public Nullable<System.DateTime> ДатаОсвобождения { get; set; }
     
         public virtual Должность Должность { get; set; }

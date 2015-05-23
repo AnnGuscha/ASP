@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ASP.Models
 {
@@ -24,6 +25,7 @@ namespace ASP.Models
         public int КодВида { get; set; }
         [DisplayName("Наименование вида")]
         public string Наименование { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Описание { get; set; }
 
         public virtual ICollection<Комплектующее> Комплектующее { get; set; }

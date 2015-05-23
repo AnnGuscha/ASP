@@ -5,12 +5,12 @@ using System.Web;
 
 namespace ASP.Models
 {
-    public class ListKomlektDTO
+    public class ListKomplektDTO
     {
         private IList<Заказ> zakaz;
         private IList<Комплектующее> komplekt;
 
-        public ListKomlektDTO(IList<Заказ> zakaz, IList<Комплектующее> komplekt)
+        public ListKomplektDTO(IList<Заказ> zakaz, IList<Комплектующее> komplekt)
         {
             this.zakaz = zakaz;
             this.komplekt = komplekt;

@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ASP.Models
 {
@@ -23,13 +24,18 @@ namespace ASP.Models
         }
         [DisplayName("Заказ")]
         public int КодЗаказа { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)] 
         [DisplayName("Дата заказа")]
         public Nullable<System.DateTime> ДатаЗаказа { get; set; }
         [DisplayName("Дата исполнения")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)] 
         public Nullable<System.DateTime> ДатаИсполнения { get; set; }
         [DisplayName("Заказчик")]
         public int КодЗаказчика { get; set; }
         public Nullable<double> Предоплата { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Отметки { get; set; }
         public Nullable<int> Гарантия { get; set; }
         [DisplayName("Сотрудник")]

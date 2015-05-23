@@ -215,23 +215,21 @@
     <Compile Include="Controllers\ДолжностьController.cs" />
     <Compile Include="Controllers\ЗаказController.cs" />
     <Compile Include="Controllers\ЗаказчикController.cs" />
-    <Compile Include="Controllers\ЗаказыController.cs" />
     <Compile Include="Controllers\КомплектующееController.cs" />
     <Compile Include="Controllers\ПослужнойСписокController.cs" />
     <Compile Include="Controllers\СотрудникController.cs" />
-    <Compile Include="Controllers\СотрудникиController.cs" />
     <Compile Include="Controllers\СписокКомплектующихController.cs" />
     <Compile Include="Controllers\СписокУслугController.cs" />
     <Compile Include="Controllers\УслугаController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CompDTO.cs" />
     <Compile Include="Models\JQueryDataTableParamModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ListKomlekt.cs" />
-    <Compile Include="Models\ListUslug.cs" />
+    <Compile Include="Models\KompDTO.cs" />
+    <Compile Include="Models\ListKomplektDTO.cs" />
+    <Compile Include="Models\ListUslugDTO.cs" />
     <Compile Include="Models\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -527,18 +525,8 @@
     <None Include="Views\Должность\Home.cshtml" />
     <None Include="Views\Заказ\Home.cshtml" />
     <None Include="Views\Заказчик\Home.cshtml" />
-    <Content Include="Views\Заказы\Create.cshtml" />
-    <Content Include="Views\Заказы\Delete.cshtml" />
-    <Content Include="Views\Заказы\Details.cshtml" />
-    <Content Include="Views\Заказы\Edit.cshtml" />
-    <Content Include="Views\Заказы\Index.cshtml" />
     <None Include="Views\ПослужнойСписок\Home.cshtml" />
     <None Include="Views\Сотрудник\Home.cshtml" />
-    <Content Include="Views\Сотрудники\Create.cshtml" />
-    <Content Include="Views\Сотрудники\Delete.cshtml" />
-    <Content Include="Views\Сотрудники\Details.cshtml" />
-    <Content Include="Views\Сотрудники\Edit.cshtml" />
-    <Content Include="Views\Сотрудники\Index.cshtml" />
     <None Include="Views\СписокКомплектующих\Home.cshtml" />
     <None Include="Views\СписокУслуг\Home.cshtml" />
     <None Include="Views\Услуга\Home.cshtml" />

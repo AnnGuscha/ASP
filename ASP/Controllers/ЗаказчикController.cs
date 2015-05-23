@@ -111,7 +111,7 @@ namespace ASP.Controllers
             }
             return View(заказчик);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Заказчик/Create
         public ActionResult Create()
         {
@@ -134,7 +134,7 @@ namespace ASP.Controllers
 
             return View(заказчик);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Заказчик/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -165,7 +165,7 @@ namespace ASP.Controllers
             }
             return View(заказчик);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Заказчик/Delete/5
         public ActionResult Delete(int? id)
         {

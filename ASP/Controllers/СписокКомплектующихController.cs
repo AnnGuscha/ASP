@@ -26,7 +26,7 @@ namespace ASP.Controllers
         [Authorize]
         public ActionResult Home()
         {
-            return View(new ListKomlektDTO(db.Заказ.ToList(), db.Комплектующее.ToList()));
+            return View(new ListKomplektDTO(db.Заказ.ToList(), db.Комплектующее.ToList()));
         }
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
@@ -114,7 +114,7 @@ namespace ASP.Controllers
             }
             return View(списокКомплектующих);
         }
-
+        [Authorize(Users = "admin")]
         // GET: СписокКомплектующих/Create
         public ActionResult Create()
         {
@@ -141,7 +141,7 @@ namespace ASP.Controllers
             ViewBag.КодКомплектующего = new SelectList(db.Комплектующее, "КодКомплектующего", "Марка", списокКомплектующих.КодКомплектующего);
             return View(списокКомплектующих);
         }
-
+        [Authorize(Users = "admin")]
         // GET: СписокКомплектующих/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -176,7 +176,7 @@ namespace ASP.Controllers
             ViewBag.КодКомплектующего = new SelectList(db.Комплектующее, "КодКомплектующего", "Марка", списокКомплектующих.КодКомплектующего);
             return View(списокКомплектующих);
         }
-
+        [Authorize(Users = "admin")]
         // GET: СписокКомплектующих/Delete/5
         public ActionResult Delete(int? id)
         {

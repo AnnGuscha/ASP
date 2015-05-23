@@ -30,59 +30,61 @@ namespace ASP.Controllers
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
             var all = db.Сотрудники.AsEnumerable();
-            IEnumerable<Сотрудники> filtered;
-            //Check whether the companies should be filtered by keyword
+            var filtered = all;
+
+            int val;
+            var isNum3 = int.TryParse(Convert.ToString(Request["sSearch_3"]), out val);
+            if (isNum3)
+            {
+                if (val==1)
+                {
+                     filtered = from s in filtered
+                           join z in db.Заказ on s.КодСотрудника equals z.КодСотрудника
+                           where (z.ДатаЗаказа > DateTime.Now && z.ДатаИсполнения==null)
+                           select s;
+                }           
+            }
+
+            //Search
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                //Used if particulare columns are filtered 
-                var kodFilter = Convert.ToString(Request["sSearch_0"]);
-                var nameFilter = Convert.ToString(Request["sSearch_1"]);
-                var stagFilter = Convert.ToString(Request["sSearch_2"]);
-
-                //Optionally check whether the columns are searchable at all 
-                var isKodSearchable = Convert.ToBoolean(Request["bSearchable_0"]);
-                var isNameSearchable = Convert.ToBoolean(Request["bSearchable_1"]);
-                var isDescrSearchable = Convert.ToBoolean(Request["bSearchable_2"]);
-
-                filtered = db.Сотрудники.AsEnumerable()
-                   .Where(c => //isKodSearchable && c.КодВида==Convert.ToInt32(param.sSearch)
-                       //||
-                               isNameSearchable && c.ФИО.ToLower().Contains(param.sSearch.ToLower())
-                               ||
-                               isDescrSearchable && c.Стаж.ToString().ToLower().Contains(param.sSearch.ToLower()));
-            }
-            else
-            {
-                filtered = all;
+                filtered = filtered
+                   .Where(c => c.ФИО.ToLower().Contains(param.sSearch.ToLower())
+                               || c.Стаж.ToString().ToLower().Contains(param.sSearch.ToLower()));
             }
 
-            var isKodSortable = Convert.ToBoolean(Request["bSortable_0"]);
-            var isNameSortable = Convert.ToBoolean(Request["bSortable_1"]);
-            var isStagSortable = Convert.ToBoolean(Request["bSortable_2"]);
+            //Sorting
             var sortColumnIndex = Convert.ToInt32(Request["iSortCol_0"]);
-
             var sortDirection = Request["sSortDir_0"]; // asc or desc
-            if (sortColumnIndex == 0 && isKodSortable)
+            switch (sortColumnIndex)
             {
-                Func<Сотрудники, int> orderingFunction = (c => c.КодСотрудника);
-                filtered = SortHelper<Сотрудники, int>.Order(sortDirection, filtered, orderingFunction);
+                case 0:
+                    {
+                        Func<Сотрудники, int> orderingFunction = (c => c.КодСотрудника);
+                        filtered = SortHelper<Сотрудники, int>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 1:
+                    {
+                        Func<Сотрудники, string> orderingFunction = (c => c.ФИО);
+
+                        filtered = SortHelper<Сотрудники, string>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
+                case 2:
+                    {
+                        Func<Сотрудники, int?> orderingFunction =
+                          (c => c.Стаж);
+
+                        filtered = SortHelper<Сотрудники, int?>.Order(sortDirection, filtered, orderingFunction);
+                    }
+                    break;
             }
-            if (sortColumnIndex == 1 && isNameSortable)
-            {
-                Func<Сотрудники, string> orderingFunction = (c => c.ФИО);
 
-                filtered = SortHelper<Сотрудники, string>.Order(sortDirection, filtered, orderingFunction);
-            }
-            if (sortColumnIndex == 2 && isStagSortable)
-            {
-                Func<Сотрудники, int?> orderingFunction =
-                    (c => c.Стаж);
-
-                filtered = SortHelper<Сотрудники, int?>.Order(sortDirection, filtered, orderingFunction);
-            }
-
-
+            //Pagination
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
+
+            //Finish selection from DB
             var result = from c in displayed select new[] { Convert.ToString(c.КодСотрудника), c.ФИО, c.Стаж.ToString() };
             return Json(new
             {
@@ -108,7 +110,7 @@ namespace ASP.Controllers
             }
             return View(сотрудник);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Сотрудник/Create
         public ActionResult Create()
         {
@@ -131,7 +133,7 @@ namespace ASP.Controllers
 
             return View(сотрудник);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Сотрудник/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -162,7 +164,7 @@ namespace ASP.Controllers
             }
             return View(сотрудник);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Сотрудник/Delete/5
         public ActionResult Delete(int? id)
         {

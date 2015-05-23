@@ -1,5 +1,4 @@
-﻿@model Models.ListKomlektDTO
-
+﻿@model Models.ListKomplektDTO
     @{
         ViewBag.Title = "СписокКомплектующих";
         Layout = "~/Views/Shared/_Layout_Autorize.cshtml";
@@ -83,7 +82,7 @@
                         <option value="">Все</option>
                         @foreach (var item in Model.Zakaz)
                         {
-                            <option value="@item.ДатаЗаказа">@item.КодЗаказа</option>
+                            <option value="@item.КодЗаказа">@item.КодЗаказа</option>
                         }
                     </select>
                 </th>

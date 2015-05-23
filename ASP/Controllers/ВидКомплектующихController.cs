@@ -98,7 +98,7 @@ namespace ASP.Controllers
             }
             return View(видКомплектующих);
         }
-
+        [Authorize(Users = "admin")]
         // GET: ВидКомплектующих/Create
         public ActionResult Create()
         {
@@ -121,7 +121,7 @@ namespace ASP.Controllers
 
             return View(видКомплектующих);
         }
-
+        [Authorize(Users = "admin")]
         // GET: ВидКомплектующих/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -152,7 +152,7 @@ namespace ASP.Controllers
             }
             return View(видКомплектующих);
         }
-
+        [Authorize(Users = "admin")]
         // GET: ВидКомплектующих/Delete/5
         public ActionResult Delete(int? id)
         {

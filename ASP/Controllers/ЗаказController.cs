@@ -24,13 +24,43 @@ namespace ASP.Controllers
 
         public ActionResult Home()
         {
-            return View(new ZakazDTO(db.Сотрудник.ToList(),db.Заказчик.ToList(),db.Комплектующее.ToList()));
+            return View(new ZakazDTO(db.Сотрудник.ToList(), db.Заказчик.ToList(), db.Комплектующее.ToList()));
         }
         public ActionResult AjaxHandler(JQueryDataTableParamModel param)
         {
-           // var all = db.ВсеЗаказы.AsQueryable();
+            // var all = db.ВсеЗаказы.AsQueryable();
             var all = db.ВсеЗаказы.AsEnumerable();
             var filtered = all;
+
+            //Filter
+            int val;
+            var isNum9 = int.TryParse(Convert.ToString(Request["sSearch_9"]), out val);
+            if (isNum9)
+            {
+                switch (val)
+                {
+                    case 1:
+                        {
+                            var fiter = db.Заказ.Where(c => c.Заказчик.Скидка > 0);
+                            filtered = from f in filtered
+                                       join fv in fiter on f.КодЗаказа equals fv.КодЗаказа
+                                       select f;
+                        }
+                        break;
+                    case 2:
+                        {
+                            filtered = filtered.Where(c => c.Предоплата > (c.Стоимость / 2));
+                        }
+                        break;
+                    case 3:
+                        {
+                            filtered = filtered.Where(c => c.ДатаИсполнения < DateTime.Today);
+                        }
+                        break;
+                }
+
+            }
+
 
             int komplektId;
             var isNum8 = int.TryParse(Convert.ToString(Request["sSearch_8"]), out komplektId);
@@ -43,7 +73,7 @@ namespace ASP.Controllers
                            select f;
             }
 
-            //Filter
+
             var sotrFilter = Convert.ToString(Request["sSearch_1"]);
             if (sotrFilter != "")
             {
@@ -55,7 +85,7 @@ namespace ASP.Controllers
             if (zaklFilter != "")
             {
                 filtered = filtered
-                .Where(c =>c.Заказчик == zaklFilter);
+                .Where(c => c.Заказчик == zaklFilter);
 
             }
 
@@ -65,7 +95,7 @@ namespace ASP.Controllers
             {
                 filtered = filtered
                    .Where(c => c.Сотрудник.ToLower().Contains(param.sSearch.ToLower())
-                               || c.Заказчик.ToLower().Contains(param.sSearch.ToLower())                              
+                               || c.Заказчик.ToLower().Contains(param.sSearch.ToLower())
                                || c.Отметки.ToLower().Contains(param.sSearch.ToLower())
                                || c.ДатаЗаказа.ToString().ToLower().Contains(param.sSearch.ToLower())
                                || c.ДатаИсполнения.ToString().ToLower().Contains(param.sSearch.ToLower())
@@ -139,7 +169,23 @@ namespace ASP.Controllers
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
 
             //Finish selection from DB
-            var result = from c in displayed select new[] { Convert.ToString(c.КодЗаказа), c.Сотрудник, c.Заказчик, ((DateTime)c.ДатаЗаказа).ToShortDateString(), ((DateTime)c.ДатаИсполнения).ToShortDateString(), c.Предоплата.ToString(), c.Стоимость.ToString(), c.Гарантия.ToString(), c.Отметки };
+            List<string[]> result = new List<string[]>();
+            foreach (var c in displayed)
+            {
+                string data1;
+                if (c.ДатаЗаказа == null)
+                    data1 = c.ДатаЗаказа.ToString();
+                else
+                    data1 = ((DateTime)c.ДатаЗаказа).ToShortDateString();
+
+                string data2;
+                if (c.ДатаИсполнения == null)
+                    data2 = c.ДатаИсполнения.ToString();
+                else
+                    data2 = ((DateTime)c.ДатаИсполнения).ToShortDateString();
+                result.Add(new string[] { Convert.ToString(c.КодЗаказа), c.Сотрудник, c.Заказчик, data1, data2, c.Предоплата.ToString(), c.Стоимость.ToString(), c.Гарантия.ToString(), c.Отметки });
+            }
+            //var result = from c in displayed select new[] { Convert.ToString(c.КодЗаказа), c.Сотрудник, c.Заказчик, ((DateTime)c.ДатаЗаказа).ToShortDateString(), ((DateTime)c.ДатаИсполнения).ToShortDateString(), c.Предоплата.ToString(), c.Стоимость.ToString(), c.Гарантия.ToString(), c.Отметки };
             return Json(new
             {
                 sEcho = param.sEcho,
@@ -164,7 +210,7 @@ namespace ASP.Controllers
             }
             return View(заказ);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Заказ/Create
         public ActionResult Create()
         {
@@ -191,7 +237,7 @@ namespace ASP.Controllers
             ViewBag.КодЗаказчика = new SelectList(db.Заказчик, "КодЗаказчика", "ФИО", заказ.КодЗаказчика);
             return View(заказ);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Заказ/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -226,7 +272,7 @@ namespace ASP.Controllers
             ViewBag.КодЗаказчика = new SelectList(db.Заказчик, "КодЗаказчика", "ФИО", заказ.КодЗаказчика);
             return View(заказ);
         }
-
+        [Authorize(Users = "admin")]
         // GET: Заказ/Delete/5
         public ActionResult Delete(int? id)
         {

@@ -99,7 +99,23 @@ namespace ASP.Controllers
             var displayed = filtered.Skip(param.iDisplayStart).Take(param.iDisplayLength);
 
             //Finish selection from DB
-            var result = from c in displayed select new[] { Convert.ToString(c.КодСписка), c.Сотрудник.ФИО, c.Должность.Название, ((DateTime)c.ДатаНазначения).ToShortDateString(), ((DateTime)c.ДатаОсвобождения).ToShortDateString() };
+            List<string[]> result=new List<string[]>();
+            foreach (var c in displayed)
+            {
+                string data1;
+                if (c.ДатаНазначения == null)
+                    data1 = c.ДатаНазначения.ToString();
+                else
+                    data1 = ((DateTime)c.ДатаНазначения).ToShortDateString();
+
+                string data2;
+                if (c.ДатаОсвобождения == null)
+                    data2 = c.ДатаОсвобождения.ToString();
+                else
+                    data2 = ((DateTime)c.ДатаОсвобождения).ToShortDateString();
+                result.Add(new string[] { Convert.ToString(c.КодСписка), c.Сотрудник.ФИО, c.Должность.Название, data1, data2 });
+            }
+           // var result = from c in displayed select new[] { Convert.ToString(c.КодСписка), c.Сотрудник.ФИО, c.Должность.Название, ((DateTime)c.ДатаНазначения).ToShortDateString(), ((DateTime)c.ДатаОсвобождения).ToShortDateString() };
             return Json(new
             {
                 sEcho = param.sEcho,
@@ -124,7 +140,7 @@ namespace ASP.Controllers
             }
             return View(послужнойСписок);
         }
-
+        [Authorize(Users = "admin")]
         // GET: ПослужнойСписок/Create
         public ActionResult Create()
         {
@@ -151,7 +167,7 @@ namespace ASP.Controllers
             ViewBag.КодСотрудника = new SelectList(db.Сотрудник, "КодСотрудника", "ФИО", послужнойСписок.КодСотрудника);
             return View(послужнойСписок);
         }
-
+        [Authorize(Users = "admin")]
         // GET: ПослужнойСписок/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -186,7 +202,7 @@ namespace ASP.Controllers
             ViewBag.КодСотрудника = new SelectList(db.Сотрудник, "КодСотрудника", "ФИО", послужнойСписок.КодСотрудника);
             return View(послужнойСписок);
         }
-
+        [Authorize(Users = "admin")]
         // GET: ПослужнойСписок/Delete/5
         public ActionResult Delete(int? id)
         {
